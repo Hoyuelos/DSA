@@ -1,0 +1,5 @@
+
+1. While working with strings (especially if they consist only of either lower or upper case characters) - we can make use of the fact that we only have 26 alphabets. 
+Thus we can make an array of length 26 and keep track of the number of alphabets our string has in this array. This keeps time complexity under check. 
+
+	ex - working with anagrams (grouping anagrams)

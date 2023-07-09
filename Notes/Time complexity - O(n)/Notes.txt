@@ -1,0 +1,51 @@
+
+How will the execution time of our algorithm grow if we grow the input size?
+
+
+* O(1) -> time complexity of the algorithm will not change even if our input size increases. i.e. constant time algorithms. 
+
+	Time	^
+		|
+		|
+		|--------------
+		|
+		|
+		----------------->
+			Input size(n)
+
+ Example - searching an index in an array - irrespective of its size this is a const time operation;
+	   insert key, value in Hashmap; etc
+
+
+* O(n) -> linear growth scenario. As our input size grows our time will grow proportionately
+
+	Time	^     /
+		|    /
+		|   /
+		|  /
+		| /
+		|/
+		----------------->
+			Input size(n)
+
+
+
+* O(log(n)) -> how many times we can cut our input into half (i.e. how many times we can divide n by 2 until it is equal to 1)
+	lets say x times 
+	2^x = n
+	x = log(n) (to the base 2)
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+It is basically the number of operations our algorithm will be performing.
+
+Total time required = (no. of operations) * (time required per operation)
+
+If we iterate an array with 2 loops (nested) - then we are performing n*n operations (n^2)
+
+
+
+	

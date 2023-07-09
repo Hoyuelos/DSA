@@ -1,0 +1,68 @@
+Find Minimum in Rotated Sorted Array
+
+Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+
+[4,5,6,7,0,1,2] if it was rotated 4 times.
+[0,1,2,4,5,6,7] if it was rotated 7 times.
+Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
+
+Given the sorted rotated array nums of unique elements, return the minimum element of this array.
+
+You must write an algorithm that runs in O(log n) time.
+
+
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/
+
+________________________________________________________________________________________________
+
+
+Information given in the problem - 
+1. The array is sorted
+2. It is rotated in a clockwise sense
+
+Based on these information following inferences can be drawn - 
+1. If the array is rotated at least once (I.e. it is not in its original unrotated state), then arr[l] > arr[r] always.
+2. There will be a pivot, dividing the array into two sorted subarrays - one on its left and other on its right
+3. The pivot will consist of max and min value of the array (maximin).
+
+So, based on these inferences we will be using binary search where-
+If arr[mid] is bigger than arr[left] - then it means that 'mid' lies on the left subarray (on the left of the pivot). This is because no element on the right of the pivot will be greater than arr[left] - our first inference.
+And if arr[mid] is less than arr[left] then obviously it cannot be in the left subarray, and has to be in the right subarray.
+
+This approach will not work if at any point we get an unrotated array (in ascending order), (why? Think of it..). If this is the case then we can return the leftmost value as it will be the smallest. So we will put a check for this condition as well.
+
+
+
+
+class Solution {
+    public int findMin(int[] arr) {
+        int n = arr.length;
+
+        int l=0,r=n-1;
+        int min = Integer.MAX_VALUE;
+
+        while(l<=r){
+            int mid = (l+r)/2;
+            min = Math.min(min, arr[mid]); 
+
+            if(arr[r] >= arr[l]){
+                // this means that the array is in its orignal state(not rotated), and  
+                // the leftmost value will be the minimum. 
+                min = Math.min(min, arr[l]);
+                break;
+            }else{
+                if(arr[mid] >= arr[l]){
+                    // mid lies in the left subarray - on the left of the pivot - so we 
+                    // need to process the right subarray to find the pivot
+                    l = mid + 1;
+                }else{
+                    // we need to process the left subarray
+                    r = mid - 1;
+                }
+            }            
+
+        }
+
+        return min;
+    }
+}

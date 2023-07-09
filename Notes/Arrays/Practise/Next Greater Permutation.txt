@@ -1,0 +1,89 @@
+
+Problem statement - 
+
+The next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such an arrangement is not possible, the array must be rearranged in the lowest possible order (i.e., sorted in ascending order).
+
+https://leetcode.com/problems/next-permutation/description/
+
+
+------------------------------------------------------------------------
+
+O(n) approach ->
+
+
+Idea - 
+
+	* If the array is in descending order, the next bigger permutation is not possible. Return the smallest permutation I.e. ascending order. 
+	* consider two pointers, i and i+1, if arr[i]<arr[i+1] -> next greater permutation will be swaping arr[i] and arr[i+1]. 
+	* we will be using this idea to find the next greater permutation. We will traverse from right to left. If at any point (i), there exists a bigger element towards its left, then we can swap these two to get the bigger permutation.
+
+
+Following points to ensure O(n) - 
+
+	* we can sort an array which is in descending order in linear time by swapping elements.
+	* on the right side of the pivot point (the point at which we have to swap it with the next bigger element on the right), the remaining array will be in descending order always. 
+	This is because we reached till pivot point as we couldn't find a pair that satisfies our requirements on its right side. 
+
+
+
+------------------------------------------------------------------------
+
+Code - 
+
+Time complexity - O(n)
+Space complexity - O(1)
+
+class Solution {
+    public void nextPermutation(int[] arr) {
+        int n = arr.length;        
+
+        int pivot=-1;     //the first index i from the back of the given array where arr[i] becomes smaller than arr[i+1]. 
+        
+	// finding pivot point.
+        for(int i=n-1;i>0;i--){
+            if(arr[i]>arr[i-1]){
+                pivot = i-1;
+                break;
+            }
+        }
+
+        // if the entire array is in descending order. then just sort it
+        if(pivot == -1){
+            sort(arr, n, 0);
+            return;
+        }       
+
+        // sorting elements on the right side of the pivot
+        sort(arr, n, pivot+1);
+
+        // finding an element just greater than the pivot point, and swapping them. The rest of the array is already sorted 
+        for(int i=pivot+1;i<n;i++){
+            if(arr[i]>arr[pivot]){
+                swap(arr,i,pivot);
+                return;
+            }
+        }        
+
+        return;
+    }
+
+    public void swap(int arr[], int i, int j){
+        int t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
+    }
+
+    public void sort(int arr[], int n, int ind){
+        // O(n) sorting as,
+        // array will be descending always from ind onwards.
+        int l=ind, r=n-1;
+        while(l<r){
+            swap(arr,l,r);
+            l++;
+            r--;
+        }
+    }
+}
+
+
+

@@ -1,0 +1,162 @@
+
+Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+
+
+
+Approach 1 ->.  O(nlog(n))
+
+populate a map (number, frequency) -> O(n)
+sort the map based on its values (i.e. frequency) -> nlog(n)
+then return top k frequent numbers.  -> O(k) (k<=n)
+
+Time complexity - nlog(n)
+
+
+   public int[] topKFrequent(int[] arr, int k) {        
+
+        int n = arr.length;
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<n;i++){
+            if(map.get(arr[i])==null)   map.put(arr[i],1);
+            else                        map.put(arr[i], map.get(arr[i])+1);
+        }
+
+        // collect entry set into a list
+        List<Map.Entry<Integer, Integer> > list =
+               new LinkedList<Map.Entry<Integer, Integer> >(map.entrySet());
+ 
+        // Sort the list based on value of each entry
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer> >(){
+            public int compare(Map.Entry<Integer, Integer> o1,
+                               Map.Entry<Integer, Integer> o2)
+            {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        int res[] = new int[k];
+        for(int i=0;i<k;i++){
+            res[i] = list.get(list.size()-i-1).getKey();
+        }
+
+        return res;
+
+    }
+
+
+--------------------------------------------------------------------------------------------------
+
+
+Approach 2 ->    O(klog(n))
+
+Instead of sorting map entries based on values (frequency), we can use a max heap and pop its head k times. 
+
+populate a map (number, frequency) -> O(n)
+now we will be using a max heap. as heapyfy has log(n) complexity.
+
+so we will do heapyfy 'k' times and return the top element -> klog(n)  (better than nlog(n))
+
+
+
+In Java, we will be using a priority queue for max-heap. 
+
+But, there is a point to note - 
+PQ does not have a constructor which takes 2 args (a comparator and Collection.reverseOrder()). But we need both, as we need a max heap and we want a comparator based on map values (frequencies), thus we need a custom comparator as well.
+
+But, we can achieve this in one more way (I.e. by implementing the comparator in a slightly different way) (So, we will use one arg constructor of PQ, with custom comparator as an argument)
+
+
+Here is the code - 
+
+
+   public int[] topKFrequent(int[] arr, int k) {       
+
+        int n = arr.length;
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<n;i++){
+            if(map.get(arr[i])==null)   map.put(arr[i],1);
+            else                        map.put(arr[i], map.get(arr[i])+1);
+        }
+
+        // heap using a priority queue
+        // take a look at compareTo method and find the difference.
+        PriorityQueue<Map.Entry<Integer,Integer>> pq = new PriorityQueue<>(new              	Comparator<Map.Entry<Integer,Integer>>(){
+            public int compare(Map.Entry<Integer,Integer> e1, Map.Entry<Integer,Integer> e2){
+                return e2.getValue().compareTo(e1.getValue());
+            }
+        });
+
+        for(Map.Entry<Integer,Integer> entry: map.entrySet()){
+            pq.add(entry);
+        }
+
+        int ans[]=new int[k];
+        for (int i = 0; i < k; i++) {
+            ans[i]=pq.remove().getKey();
+        }
+        return ans;
+
+    }
+
+
+
+Did you get the answer?
+Here, in compareTo() method, we compared e2 with e1 (and not e1 with e2, which is generally used for ascending order comparison)
+
+return e2.getValue().compareTo(e1.getValue()) ->
+This line compares the values of the two entries using the compareTo method. The comparison is reversed (e2.getValue().compareTo(e1.getValue())) to sort the entries in descending order based on their values. This means that entries with higher values will have higher priority in the priority queue.
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+Approach 3 -> Using Bucket sort -> O(n)
+
+Bucket sort can sort an array in O(n) time given that the inputs are bounded.
+
+In our case, frequencies are bounded (0 to n; at max, a number can have a frequency of n - single no repeating n times), and we want to sort based on the frequency.
+Thus we can use bucket sort to sort w.r.t. frequencies.
+
+
+
+Here is the code - 
+
+
+   public int[] topKFrequent(int[] arr, int k) {
+       
+        int n = arr.length;
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<n;i++){
+            if(map.get(arr[i])==null)   map.put(arr[i],1);
+            else                        map.put(arr[i], map.get(arr[i])+1);
+        }
+
+        List<Integer> bucket[] = new List[n+1];
+
+        for(Map.Entry<Integer,Integer> entry: map.entrySet()){
+            int freq = entry.getValue();
+            if(bucket[freq]==null){
+                List<Integer> list = new ArrayList<>();
+                list.add(entry.getKey());
+                bucket[freq] = list;
+            }else{
+                bucket[freq].add(entry.getKey());
+            }
+        }
+
+        int cnt=0;
+        int res[] = new int[k];
+        for(int i=n;i>=0 && cnt<k;i--){
+            if(bucket[i]!=null){
+                for(int j=0;j<bucket[i].size() && cnt<k;j++){
+                    res[cnt] = bucket[i].get(j);
+                    cnt++;   
+                }
+            }            
+        }
+
+        return res;
+
+    }

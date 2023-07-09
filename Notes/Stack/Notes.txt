@@ -1,0 +1,13 @@
+
+Stack - 
+
+LIFO - Last in first out
+
+What goes at the last comes out first.
+
+
+Example - Undo feature in various applications. (Last performed action is at the top of the stack and is popped out first when we want to undo).
+
+
+A stack should not be always imagined as a vertical container (as it will limit our thinking), 
+An array can also function like a stack, when we are iterating from left to right (from start index and towards the end), and want to process data present at our index first. 

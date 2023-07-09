@@ -1,0 +1,47 @@
+Two pointers technique -> 
+
+An efficient technique to reduce time complexity from O(n^2) to O(n).
+
+Generally, while using brute force (n^2 complexity) we use two nested loops and two pointers i and j in each of them.
+We try to find possible pairs (that satisfy our needs) in the array by iterating it using two loops.
+
+
+In some conditions, this can be easily achieved by two pointers technique in O(n) time - 
+Having two pointers i,j but instead of iterating them in 2 nested loops, we will be moving them in just one loop.
+Either one pointer will move at a faster speed or one starts at the front and the other at the end.
+In this way, we will cover the entire array and find our desired pair :) 
+
+
+So, basically, we are trying to cover entire arrays (check all pairs) in just one loop by initialising these pointers in different ways and controlling their movement as per our requirement (to achieve our goal)
+
+The main task is to decide how to move (control) these pointers. 
+It depends on what we want to achieve. (We move pointers so as to arrive at the optimal solution, thinking that we haven't got it till now)
+
+Ex - in the "Container with most water" problem, the main idea is to hold on to the bigger wall, as it can fetch a greater area in future.
+
+
+
+
+Why we can use it in certain conditions only?
+We mostly use it when we have a sorted array if there is no pattern (inputs are random) then how will we decide which pointer to move first (or how to control the pointers)?
+
+
+
+Here are some thoughts to follow when you are implementing the two-pointer approach, depending on what you are trying to achieve:-
+
+   * Pointers Initializing — Your starting points. The indexes that you want to compare with.
+   * Movement Judging — The movement affects the coverage of comparison. There should be a solid condition to judge the pointer’s movement whether to move forward or pause.
+   * Stop condition — condition to stop the pointer movement. Usually stops at the end of array iteration or when two-pointer meet an intersection.
+
+
+
+Some popular questions - 
+2 Sum
+3 Sum
+Container with most water
+Tapping rainwater
+
+
+
+
+

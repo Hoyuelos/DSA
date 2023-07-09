@@ -1,0 +1,19 @@
+
+This is yet another efficient technique to reduce the time complexity from O(n^2) to O(n).
+
+In this technique, we have a window - either fix size or variable size - which we move to find an optimal subarray.
+
+Two ways to initialise - 
+1. left=0, right=1 -> our window is from left to right-1 (right index is not inclusive)
+
+2. left=0, right=0 -> Our window is from left to right (right index is inclusive)
+
+In 2nd option, when we are in the loop, we already have a window (from left to right), now we just have to validate it. If it is valid, we can increase its length by increasing the right pointer. And if it is invalid then we can reduce its length by increasing the left pointer (then again checking the validity of this new window in another iteration of our loop)
+
+
+In 1st option, when we enter the loop, our window is already a valid case and it doesn't include the right pointer. And we check if we should/can include the right pointer in the window or not. (If not then we move the left pointer to reduce the window size or make it invalid).
+
+So, depending on the condition of our problem we should choose either one of them.
+
+
+personally, I feel that the 2nd option is a safe one, as the 1st case might not work sometimes. 

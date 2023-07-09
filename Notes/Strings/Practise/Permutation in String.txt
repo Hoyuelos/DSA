@@ -1,0 +1,96 @@
+ Permutation in String
+
+Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
+
+In other words, return true if one of s1's permutations is the substring of s2.
+
+
+https://leetcode.com/problems/permutation-in-string/description/
+
+
+__________________________________________________________________________________________________
+
+
+Approach 1 - 
+
+Maintain two hash maps (one for s1 and the other for s2). Use a fixed-size window to iterate on the s2 string. To validate the window, compare these 2 maps. If they are exactly the same then it means this window is an anagram of s1.
+If we didn't find any such window, return false. 
+
+Time complexity - O(26*n)
+As time complexity to compare maps will be O(26) as it is mentioned that strings can only contain lowercase English alphabets.
+And O(n) is for iterating through the s2 string.
+
+
+--------------------------------------------------------------------------------------------
+
+
+Approach 2 - 
+
+Time complexity - O(n)
+
+Slightly better than approach 1, here we will not need to compare hash maps and can same on that time.
+
+Instead of having 2 separate maps for each string, we will be just using one map.
+
+The idea is - whenever we arrive at the right window (i.e. where s1 is an anagram of this window), our map size will be 0 (signifying that all the chars of s1 have been found in this window of s2)
+
+We will initialise this map with the chars of string s1. 
+To validate a window we will check if this map's size is zero or not.
+If not, we will shift the left and the right pointer, removing the left from the window and adding the right to it.
+Whenever we add a character to the window, we will decrement its count in the map (because this char is now being considered and at the end, we want to size of the map to be zero when all the characters are found, thus decrementing and removing them as we add them in the window).
+Similarly, when we remove the char from the window, we add its count to the map.
+
+
+
+
+class Solution {
+    public boolean checkInclusion(String st1, String st2) {
+        int l2 = st2.length();
+        int l1 = st1.length();
+        if(l1>l2)   return false;
+        boolean result = false;
+
+        Map<Character, Integer> map = new HashMap<>();
+        for(int i=0;i<l1;i++){
+            char cur = st1.charAt(i);
+            if(map.get(cur)==null)  map.put(cur, 1);
+            else                    map.put(cur, map.get(cur)+1);
+        }
+        
+        // idea - if we are putting it in window, then decrement from the map and vice versa.
+        //initialising the window
+        for(int i=0;i<l1;i++){
+            char cur = st2.charAt(i);
+            if(map.get(cur)==null)  map.put(cur, -1);
+            else                    map.put(cur, map.get(cur)-1);
+            if(map.get(cur)==0)  map.remove(cur);
+        }
+
+        int left=0,right=l1-1;          // right is included in the window
+        while(left<=right && right<l2){
+
+            if(map.size()==0)   return true;  // valid window
+
+            //else, remove left and increment right
+            char leftChar = st2.charAt(left);
+            if(map.get(leftChar)==null)     map.put(leftChar, 1);
+            else                            map.put(leftChar, map.get(leftChar)+1);
+            if(map.get(leftChar)==0)  map.remove(leftChar);
+            left++;
+
+            right++;
+            if(right==l2)   return false;
+
+            char rightChar = st2.charAt(right);
+            if(map.get(rightChar)==null)    map.put(rightChar, -1);
+            else                            map.put(rightChar, map.get(rightChar)-1);
+
+            if(map.get(rightChar)==0)  map.remove(rightChar);
+
+        }
+
+        return false;
+            
+    }
+}
+

@@ -1,0 +1,70 @@
+Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.
+
+The next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.
+
+Problem link - https://leetcode.com/problems/next-greater-element-ii/description/
+
+
+------------------------------------------------------------------------------------------------
+
+
+This is a variation of the Next Greater Element-I problem where the array is not circular. 
+
+Because the array is circular here, the following things will change - 
+1. Last element can have a solution (i.e. an element greater to it on the right - as the array is circular)
+2. Elements which don't have a solution as per 'Next Greater Element-I' might have a solution here, as the array is circular and their solution might exist on their left. 
+
+
+------------------------------------------------------------------------------------------------
+
+Approach 1 - 
+
+Similar to the solution of 'Next Greater Element-I' with some modifications to accommodate circular array and related caveats. 
+
+
+
+class Solution {
+    public int[] nextGreaterElements(int[] arr) {
+
+        int n = arr.length;  
+        Stack<Integer> st = new Stack<>();
+        st.push(0);
+
+        boolean found[] = new boolean[n];		// so that we don't push such elements again into the stack
+
+        int res[] = new int[n];
+        Arrays.fill(res, -1);
+
+        boolean firstTrip = true;		// From 2nd trip onwards we don't have to push any element, as if we haven't found the solution for an element in the first trip it will be already in the stack
+
+        for(int i=1;i<n && !st.empty();){
+
+            if(!st.empty() && i == st.peek()){
+                // We did one complete round and couldn't find a greater element for arr[I]
+                found[i] = true;
+                st.pop();
+            }
+
+            while(!st.empty() && arr[i]>arr[st.peek()]){      
+                int top = st.pop();
+                res[top] = arr[i];
+                found[top] = true;
+            }
+            
+            if(!found[i] && firstTrip)
+                st.push(i);                        
+
+            i++;
+            if(i==n){			// since its circular
+                i=0;
+                firstTrip = false;
+            }
+        }
+
+        return res;
+
+    }
+}
+
+------------------------------------------------------------------------------------------------
+
