@@ -12,19 +12,19 @@ Function calling itself.
 
 If this can be avoided by sharing resources via function call (by passing them in method arguments), it will significantly improve the runtime of the method (even though the time omplexity is same)
 
-<h3> In conclusion, in recursion, its better to share resources (among function calls) instead of creating local resources at each function node (of recursion tree) </h3>
+<h4> In conclusion, in recursion, its better to share resources (among function calls) instead of creating local resources at each function node (of recursion tree) </h4>
 
 reference code - 
 when reources are shared - https://leetcode.com/problems/palindrome-partitioning/submissions/1000142871/       
 when resources are not shared and are created locally - https://leetcode.com/problems/palindrome-partitioning/submissions/1000124962/
-(compare time-taken by both approaches)       
+<br>(compare time-taken by both approaches)       
 
 
 
-<h2> We will be discussing two approaches in backtracking by refering  Subsets II problem  (https://leetcode.com/problems/subsets-ii/description/) </h2>
+<h3> We will be discussing two approaches in backtracking by refering  Subsets II problem  (https://leetcode.com/problems/subsets-ii/description/) </h3>
 
 
-<h3> Approach 1 - </h3>
+<h4> Approach 1 - </h4>
 
 In a naive backtracking approaches, where at every node we make a decision for each element and then recursively go into the respective branch of the recursion tree and process further elements.
 
@@ -52,7 +52,7 @@ public void dfs(int arr[], int n, int i, List<Integer> list){
 
 
 
-<h3> Approach 2 - </h3>
+<h4> Approach 2 - </h4>
 
 Here, our main idea is to pick any one of the available elements and proceed with the recursion. (Instead of having 2 choices for each element as discussed in approach 1)
 
