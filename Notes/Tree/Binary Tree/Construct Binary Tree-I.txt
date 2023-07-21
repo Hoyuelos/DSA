@@ -1,0 +1,93 @@
+Construct Binary Tree from Preorder and Inorder Traversal
+
+Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/
+
+___________________________________________________________________________________________
+
+
+
+Approach 1 -
+
+Time complexity - O(n)
+
+Brute force approach.
+
+We will use recursion to solve this problem. The idea is, we know that first element in the preorder array will be the root node. Now, lets find its position in ignorer array (lets say it is 'rootInd').
+Everything on the left of 'rootInd' in the inorder array will be its left subtree. We will count the elements in the left side of 'rootInd' and same number of elements in preorder array after root node will comprise of left subtree. 
+So, now we have got inorder and preorder of the left subtree. We can recursively call the same method to find the left subtree.
+Likewise, all the remaining elements in both inorder and preorder array comprises of the right subtree. Using recursion we can find the right subtree as well.
+
+Once this is done, we have got our binary tree starting from our root node.
+
+
+We will be using a Hashmat to store elements of inorder array and their index. This is to find the index of elements quickly. 
+
+Note - a small search function instead of a hashmap would substantially increase the computation time, as for every node we will be iterating in the array to search for the element - Sometimes small things can be computationally very costly :) 
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+
+class Solution {
+    Map<Integer,Integer> map = new HashMap<>();
+
+    public TreeNode buildTree(int[] pre, int[] in) {
+        int n = pre.length; // 1<=n<=3000
+        if(n==0)    return null;
+              
+        for(int i=0;i<n;i++)
+            map.put(in[i], i);
+
+        return build(pre, in, 0, n-1, 0, n-1);
+    }
+
+    public TreeNode build(int pre[], int in[], int li, int ri, int lp, int rp){
+        if(li>ri || lp>rp)  return null;
+        int n = pre.length; 
+        if(n==0)    return null;
+
+        int root = pre[lp];
+        int rootInd = map.get(root);         // in inorder array, should be within the index range        
+        if(rootInd<li || rootInd>ri)    return null;
+
+        TreeNode rootNode = new TreeNode(root, null, null);
+        TreeNode leftTree=null, rightTree=null;
+
+        if(rootInd > li)        // left subtree exists
+            leftTree = build(pre, in, li, rootInd-1, lp+1, lp+rootInd-li);
+        
+        if(rootInd < ri)        // right subtree exists
+            rightTree = build(pre, in, rootInd+1, ri, lp+rootInd-li+1, rp);
+
+        rootNode.left = leftTree;
+        rootNode.right = rightTree;
+
+        return rootNode;
+
+    }
+
+
+}
+
+
+--------------------------------------------------------------------------------------------------
+
+
+

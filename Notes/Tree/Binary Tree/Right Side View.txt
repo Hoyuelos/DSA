@@ -1,0 +1,102 @@
+Binary Tree Right Side View
+
+Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+https://leetcode.com/problems/binary-tree-right-side-view/description/
+
+___________________________________________________________________________________________________
+
+
+Approach 1 - 
+
+BFS Approach 
+
+Form Level order traversal on each level we can find the last element of that level and store it in our result list. 
+
+Time Complexity - O(n)
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root==null)  return res;
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
+        while(q.size()>0){
+            int cnt = q.size();
+
+            TreeNode node=null;
+            while(cnt>0 && q.size()>0){
+                node = q.poll();
+                if(node.left!=null) q.add(node.left);
+                if(node.right!=null) q.add(node.right);    
+                cnt--;
+            }
+
+            res.add(node.val);
+        }
+
+        return res;
+
+    }
+}
+
+
+
+---------------------------------------------------------------------------------------------------
+
+
+
+Approach 2 -
+
+DFS approach
+
+Time Complexity - O(n)
+
+This can also be solved using DFS. We will be doing preorder dfs with slight modification, that we will traverse the right child first and then the left child.
+
+As we are going to the right child first, we can say that for every new level, we will be visiting its rightmost element first (before any other element of the same level) <--- This is the main catch.
+
+We also need to ensure that we just save the rightmost element and not all elements of the level.
+For this, we will be using the level number of that level. 
+(Let's say that through dfs we arrive at a level 'n' for the first time on its rightmost child, so in our result list we will be having the rightmost elements from each n-1 level, thus its size will be n-1. And if we arrive at this level at any subsequent time because of dfs, the size of this list will be more than 'n-1') 
+From this logic, we know when we should save an element in our result list.
+
+
+
+class Solution {
+    List<Integer> res = new ArrayList<>();
+    public List<Integer> rightSideView(TreeNode root) {
+        helper(root, 1);
+        return res;
+    }
+
+    public void helper(TreeNode root, int level) {
+
+        if (root == null)
+            return;
+
+        if (res.size() < level)
+            res.add(root.val);
+
+        helper(root.right, level + 1);
+        helper(root.left, level + 1);            
+    }
+}

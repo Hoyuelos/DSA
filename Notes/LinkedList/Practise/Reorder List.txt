@@ -1,0 +1,85 @@
+Reorder List
+
+You are given the head of a singly linked list. The list can be represented as:
+
+L0 → L1 → … → Ln - 1 → Ln
+Reorder the list to be on the following form:
+
+L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+You may not modify the values in the list's nodes. Only nodes themselves may be changed.
+
+
+https://leetcode.com/problems/reorder-list/description/
+__________________________________________________________________________________________________
+
+
+Approach 1 - 
+
+Using 4 pointers (head, next, last, secondLast) we can keep track of all the nodes and at the same time rearrange them to get the desired order.
+
+Time Complexity ~ O(n^2)
+
+
+Not the best approach as we will be having a nested loop to find the last and second last pointer for every iteration.
+
+__________________________________________________________________________________________________
+
+
+Approach 2 - 
+
+
+Time Complexity - O(n)
+
+
+Better approach than the previous one, here we don't need a nested loop. 
+
+The main idea is to find the middle node of the linked list. (Notice that the middle node will be the last node of the resulting list)
+
+So we have two sub-linklists, at the left and right side of the middle node. We will break our list from the middle to get two lists - left and right
+
+Now, we will reverse the right list, and one by one connect the nodes from left and right iteratively.
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode h) {
+        if(h.next==null || h.next.next==null)    return;
+
+        ListNode mid=null;
+        ListNode slow=h, fast=h;
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        mid = slow;
+        ListNode right = reverseList(mid.next);		// this method can be written separately
+        mid.next = null;
+        ListNode left = h, leftnext=h, rightnext=right;
+        
+        while(left!=null && right!=null){
+            leftnext = left.next;
+            left.next = right;
+            rightnext = right.next;
+            right.next = leftnext;
+
+            left = leftnext;
+            right = rightnext;
+        }
+    
+        
+    }
+    
+}
+
+

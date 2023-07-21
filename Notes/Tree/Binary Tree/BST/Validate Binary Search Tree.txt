@@ -1,0 +1,150 @@
+Validate Binary Search Tree
+
+Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+A valid BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+
+https://leetcode.com/problems/validate-binary-search-tree/description/
+
+________________________________________________________________________________________________
+
+
+
+Approach 1 -
+
+Brute force technique
+
+Time complexity - 
+
+
+For a valid BST, the condition is - for every node, each node in its left subtree has a smaller value and each node in its right subtree has a larger value.
+
+So we will check this condition for every node in the tree. i.e. for every node we will check if its left subtree is smaller than it and if its right subtree is larger than it or not.
+
+So, we will be iterating the tree in an inorder fashion and on every node we will check if its left and right child are following this condition or not.
+
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+	
+	// This method is inorder traversal, to iterate through the entire tree once.
+
+        if(root==null)  return true;
+
+        boolean flag = isValidBST(root.left);
+        if(!flag)   return false;
+
+        flag = checkChild(root.left, root.val, 0);
+        if(!flag)   return false;
+
+        flag = checkChild(root.right, root.val, 1);
+        if(!flag)   return false;
+
+        flag = isValidBST(root.right);
+        if(!flag)   return false;
+
+        return true;
+    }
+
+
+    public boolean checkChild(TreeNode root, int tar, int op){
+
+	// In this method, we will check if the subtree at the root node is larger/smaller than 'tar' based on the given value of 'op'
+        // op: 0 - less than, 1 - greater than
+
+        if(root==null)  return true;
+        
+        boolean flag = checkChild(root.left,tar,op);
+        if(!flag)   return false;
+
+        switch(op){
+            case 0: 
+                if(root.val >= tar) return false;
+                break;
+            case 1:
+                if(root.val <= tar) return false;            
+        }
+        
+        flag = checkChild(root.right,tar,op);
+        if(!flag)   return false;
+
+        return true;
+    }
+}
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+Approach 2 -
+
+Dynamic programming method - we can approach with a bottom-up technique, in which we will solve smaller subproblems and then use its result to solve bigger problems, hence avoiding repetitive computation.
+
+The idea is to check if a node is a valid BST node given that its left and right subtrees are valid BST (proved in respective subproblems).
+For this, our root node must be larger than the largest node in the lift subtree and smaller than the smallest node in the right subtree. 
+
+
+
+class Solution {
+
+    public boolean isValidBST(TreeNode root) {
+        
+        if(root==null)  return true;
+
+        boolean flag = isValidBST(root.left);
+        if(!flag)   return false;
+
+        flag = isValidBST(root.right);
+        if(!flag)   return false;
+
+        flag = isValidNode(root);
+
+        return flag;
+    }
+
+
+    public boolean isValidNode(TreeNode root){
+        
+        if(root.left!=null){
+            TreeNode node = root.left;
+            while(node.right!=null)
+                node = node.right;
+            if(node.val >= root.val)
+                return false;
+        }
+
+        if(root.right!=null){
+            TreeNode node = root.right;
+            while(node.left!=null)
+                node = node.left;
+            if(node.val <= root.val)
+                return false;
+        }
+
+        return true;
+    }
+
+}
+

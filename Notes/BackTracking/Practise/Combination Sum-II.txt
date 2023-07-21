@@ -1,0 +1,46 @@
+Combination Sum II
+
+Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+
+Each number in candidates may only be used once in the combination.
+
+Note: The solution set must not contain duplicate combinations.
+
+
+https://leetcode.com/problems/combination-sum-ii/description/
+
+___________________________________________________________________________________________________
+
+
+The idea for recursion - at every node, we will select elements from our array one by one and proceed with the recursion.
+
+
+
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> combinationSum2(int[] arr, int target) {
+        Arrays.sort(arr);
+        List<Integer> list = new ArrayList<>();
+        dfs(arr,arr.length,target,0,0,list);
+        return res;
+    }
+
+    public void dfs(int arr[], int n, int target, int sum, int ind, List<Integer> list){
+        if(sum==target){
+            res.add(new ArrayList(list));
+            return;
+        }
+        if(sum>target || ind>=n)    return;
+
+        
+        for(int i=ind;i<n;i++){
+            if(i!=ind && arr[i-1]==arr[i]) continue;
+            if(sum+arr[i]>target)   break;
+
+            list.add(arr[i]);
+            dfs(arr,n,target,sum+arr[i],i+1,list);
+            list.remove(list.size()-1);
+        }
+
+    }
+}

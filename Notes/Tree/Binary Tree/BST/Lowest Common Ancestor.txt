@@ -1,0 +1,139 @@
+Lowest Common Ancestor
+
+Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+
+____________________________________________________________________________________________________
+
+
+Idea - 
+
+LCA will be a node if it satisfies either of the two conditions -
+1. 'p' and 'q' are in the left and the right subtree of this node, then this will be their LCA
+2. This node itself is 'p' or 'q', and the other node is in its left or right subtree. Then also this node will be LCA.
+
+
+
+Approach 1 - 
+
+Time complexity - O(n)
+
+
+The idea is to memoize for every node if they have 'p' and 'q' in their left or right subtree. 
+Then traversing the tree and referring our table to check for LCA.
+
+The time complexity for memoizing is O(n) and that of searching for LCA is O(log(n)).
+So total complexity will be - O(n)+O(log(n)) = O(n)
+
+NOTE - This approach will work even if the tree is not a BST (i.e. for general binary trees)
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+
+    Map<Integer, Pair<Integer,Integer>> map = new HashMap<>();
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        memoize(root, p, q);
+        return lca(root, p, q);
+    }
+
+    public TreeNode lca(TreeNode root, TreeNode p, TreeNode q){
+        if(root==null)  return null;
+
+        Pair<Integer,Integer> pair = map.get(root.val);
+
+        if(root.val==p.val || root.val==q.val){
+            if(pair.getKey()>0 || pair.getValue()>0)    return root;
+        }        
+        if(pair.getKey()==1 && pair.getValue()==1)  return root;
+
+        if(pair.getKey()==0 && pair.getValue()==0)  return null;
+
+        if(pair.getKey()>1)
+            return lca(root.left, p, q);
+        else
+            return lca(root.right, p ,q);
+        
+    }
+
+    public int memoize(TreeNode root, TreeNode p, TreeNode q){
+        if(root==null)  return 0;
+
+        int left = memoize(root.left, p, q);
+        int right = memoize(root.right, p, q);
+
+        Pair<Integer,Integer> pair = new Pair(left, right);
+        map.put(root.val, pair);
+
+        int res = left + right;
+        if(root.val==p.val || root.val==q.val)
+            res++;
+        return res;        
+    }
+
+}
+
+
+
+------------------------------------------------------------------------------------------
+
+
+
+Approach 2 - 
+
+Time complexity - O(log(n))
+
+We can avoid memoizing and save O(n) operations since we know that the given tree is a BST.
+
+Normally a search on BST takes log(n) time as we don't need to iterate on the whole tree, using the same property we can find LCA as well.
+(As it is given that all the numbers in BST are unique)
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        if(root==null)  return null;
+        
+        int l = p.val < q.val ? p.val :q.val;		//lesser of p,q
+        int b = p.val < q.val ? q.val : p.val;		//bigger of p,q	
+        
+        if(l<root.val && b>root.val)    return root;
+
+        if(l==root.val || b==root.val){
+            if(b>root.val || l<root.val)    return root;                
+        }
+
+        if(l<root.val && b<root.val)
+            return lowestCommonAncestor(root.left, p, q);
+        else
+            return lowestCommonAncestor(root.right, p, q);
+    }
+}
+
+
