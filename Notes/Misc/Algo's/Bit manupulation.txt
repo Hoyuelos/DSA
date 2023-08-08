@@ -1,0 +1,6 @@
+Bit manipulation is a handy technique to find solve lot of problems efficiently 
+Do check it out
+
+
+
+https://www.hackerearth.com/practice/notes/fun-with-bits-print-all-subsets-of-a-set/

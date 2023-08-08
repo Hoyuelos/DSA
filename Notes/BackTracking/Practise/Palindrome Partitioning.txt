@@ -1,0 +1,53 @@
+Palindrome Partitioning
+
+Given a string s, partition s such that every substring of the partition is a palindrome.
+Return all possible palindrome partitioning of s.
+
+https://leetcode.com/problems/palindrome-partitioning/description/
+
+________________________________________________________________________________________________
+
+
+
+class Solution {
+    List<List<String>> resList = new ArrayList<>(); 
+    public List<List<String>> partition(String st) {
+        List<String> tlist = new ArrayList<>();
+        dfs(st,0,st.length()-1, tlist);
+        return resList;
+    }
+
+    public void dfs(String st, int start, int end, List<String> tlist){
+        // start index, end index of the string                
+        if(start > end){
+            resList.add(new ArrayList(tlist));
+            return;
+        }
+
+        int ind = start;
+                  
+        while(ind<=end){            
+            if(isPalindrome(st, start, ind)){  // we are not using substring to check palindrome as it is a computationaly costly method  
+                String substr = st.substring(start,ind+1);
+                tlist.add(substr);
+                dfs(st, ind+1, end, tlist);
+                tlist.remove(tlist.size()-1);                
+            }
+            ind++;
+
+        }                     
+        
+    }
+
+    public boolean isPalindrome(String st, int start, int end){        
+        // from start till end, inclusive    
+        if(start>end)   return false;
+        int l=start,r=end;
+        while(l<=r){
+            if(st.charAt(l)!=st.charAt(r))  return false;
+            l++;
+            r--;
+        }        
+        return true;
+    }
+}

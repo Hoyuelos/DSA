@@ -1,0 +1,114 @@
+Target Sum
+
+You are given an integer array nums and an integer target.
+
+You want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers.
+
+For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and concatenate them to build the expression "+2-1".
+Return the number of different expressions that you can build, which evaluates to target.
+
+https://leetcode.com/problems/target-sum/
+
+__________________________________________________________________________________________
+
+
+Brute force - 
+
+Backtracking - 
+
+
+class Solution {
+    public int findTargetSumWays(int[] arr, int target) {
+        return dfs(arr,target,0,0);
+    }
+
+    public int dfs(int arr[], int target, int ind, int sum){
+
+        // result at leaf
+        if(ind==arr.length && sum==target)  return 1;
+        if(ind==arr.length) return 0;
+
+        // + and -
+        return dfs(arr,target,ind+1,sum+arr[ind])        
+         + dfs(arr,target,ind+1,sum-arr[ind]);
+    }
+}
+
+
+------------------------------------------------------------------------------------------------
+
+Dynamic Programming- 
+
+
+Memoization - 
+
+
+
+Using hash map - 
+
+
+class Solution {
+    Map<Pair<Integer,Integer>,Integer> map = new HashMap<>();
+    public int findTargetSumWays(int[] arr, int target) {
+        return dfs(arr,target,0,0);
+    }
+
+    public int dfs(int arr[], int target, int ind, int sum){
+
+        // result at leaf
+        if(ind==arr.length && sum==target)  return 1;
+        if(ind==arr.length) return 0;
+        
+        Pair<Integer,Integer> key = new Pair(ind,sum);
+        if(map.get(key)!=null)      return map.get(key);
+
+        // + and -
+        int cnt = dfs(arr,target,ind+1,sum+arr[ind])        
+         + dfs(arr,target,ind+1,sum-arr[ind]);
+        
+        map.put(key,cnt);
+        return cnt;
+    }
+}
+
+
+
+
+
+Using a matrix - 
+
+
+class Solution {
+    Map<Pair<Integer,Integer>,Integer> map = new HashMap<>();
+    int dp[][];
+    int total=0;
+    public int findTargetSumWays(int[] arr, int target) {
+        int n = arr.length;        
+        
+        for(int a:arr)  total += a;
+        if(Math.abs(target) > total)    return 0;
+
+        dp = new int[2*total+1][n];
+        for(int a[]:dp)     Arrays.fill(a,-1);
+
+        return dfs(arr,target,0,0);
+    }
+
+    public int dfs(int arr[], int target, int ind, int sum){
+
+        // result at leaf
+        if(ind==arr.length && sum==target)  return 1;
+        if(ind==arr.length) return 0;
+                
+        if(dp[sum+total][ind]!=-1)  return dp[sum+total][ind];
+
+        // + and -
+        int cnt = dfs(arr,target,ind+1,sum+arr[ind])        
+         + dfs(arr,target,ind+1,sum-arr[ind]);
+        
+        dp[sum+total][ind] = cnt;
+        return cnt;
+    }
+}
+
+

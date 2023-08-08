@@ -1,0 +1,142 @@
+Coin Change
+
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+
+Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+You may assume that you have an infinite number of each kind of coin.
+
+
+https://leetcode.com/problems/coin-change/description/
+
+__________________________________________________________________________________________
+
+
+
+Brute Force - 
+
+Backtracking - check all combinations and return the one with the least number of coins. 
+
+
+
+class Solution {
+    int minCnt = Integer.MAX_VALUE;
+    public int coinChange(int[] coins, int amount) {
+       List<Integer> list = new ArrayList<>();
+       recur(coins, coins.length, amount, list);
+       return minCnt == Integer.MAX_VALUE ? -1 : minCnt; 
+    }
+
+    public void recur(int arr[], int n, int amount, List<Integer> list){
+        if(amount==0){
+            minCnt = Math.min(minCnt, list.size());
+            return;
+        }
+        if(amount<0)    return;
+
+        for(int i=n-1;i>=0;i--){
+            if(arr[i]>amount)   continue;
+            list.add(arr[i]);
+            recur(arr,n,amount-arr[i],list);
+            list.remove(list.size()-1);
+        }        
+
+    }
+}
+
+
+
+------------------------------------------------------------------------------------------------
+
+Dynamic Programming - 
+
+As we can see from our recursion tree that there are multiple repetitive subproblems (we will reach a particular state - coins[], amount - multiple times). So we will first solve these repetitive subproblems and save its result to be used in future.
+
+
+
+
+1. Top-down approach (Memoization)
+
+
+Keeping a map to store min coins required for given amount. (Map<amount,min_coins>)
+
+
+
+class Solution {
+    
+    Map<Integer, Integer> map = new HashMap<>();
+    public int coinChange(int[] coins, int amount) {
+       List<Integer> list = new ArrayList<>();
+       int minCnt = recur(coins, coins.length, amount, list);
+       return minCnt == Integer.MAX_VALUE ? -1 : minCnt; 
+    }
+
+    public int recur(int arr[], int n, int amount, List<Integer> list){
+        if(amount==0){            
+            return 0;
+        }        
+
+        if(map.get(amount)!=null)   return map.get(amount);
+
+        int cnt=0;
+        int minCnt=Integer.MAX_VALUE;
+        for(int i=n-1;i>=0;i--){
+            if(arr[i]>amount)   continue;
+            list.add(arr[i]);            
+            cnt = recur(arr,n,amount-arr[i],list);
+            if(cnt!=-1)     minCnt = Math.min(minCnt, cnt+1);
+            list.remove(list.size()-1);
+        }
+
+        if(minCnt == Integer.MAX_VALUE)   minCnt = -1;
+        map.put(amount, minCnt);
+        return minCnt;
+    }
+}
+
+
+----------------------------------------------------------------------------------------
+
+
+2. Bottom-up approach - 
+
+
+Here, we are solving subproblems first (subproblems are identified from our recursion tree). And then solve bigger problems.
+
+
+
+class Solution {
+    public int coinChange(int[] coins, int amt) {
+        // dp bottom's up, optimal substructure property
+        
+        int dp[] = new int[amt+1];
+        dp[0]=0;
+        
+        for(int i=1;i<amt+1;i++){
+            
+            int min = Integer.MAX_VALUE;
+                for(int coin: coins){
+                if(coin <= i){
+                    if(dp[i-coin] != Integer.MAX_VALUE)
+                        min = Math.min(dp[i-coin]+1, min);
+                }
+            }
+            dp[i] = min;
+            
+        }
+        
+        return dp[amt] == Integer.MAX_VALUE ? -1 : dp[amt];
+        
+    }
+}
+
+
+__________________________________________________________________________________________________
+
+
+
+Note - It's better to keep a single constant (Integer.MAX_VALUE in our case) for the cases with no solution, Instead of handling two values (Integer.MAX_VALUE, 0) in our 'dp' array.
+
+Reference - https://leetcode.com/problems/coin-change/submissions/1004997644/  
+(Check this that why this solution failed)
+

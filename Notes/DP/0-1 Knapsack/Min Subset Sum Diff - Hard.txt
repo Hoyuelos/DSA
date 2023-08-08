@@ -1,0 +1,50 @@
+Partition Array Into Two Arrays to Minimize Sum Difference
+
+
+You are given an integer array nums of 2 * n integers. You need to partition nums into two arrays of length n to minimize the absolute difference of the sums of the arrays. To partition nums, put each element of nums into one of the two arrays.
+
+Return the minimum possible absolute difference.
+
+
+https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/
+
+__________________________________________________________________________________________
+
+
+Brute force - 
+
+Backtracking - 
+
+For every element we have two choices - either put in the first subarray or put in the second subarray.
+
+
+
+class Solution { 
+      
+    public int minimumDifference(int[] arr) {
+        int n = arr.length;
+        return dfs(arr,n/2,0,0,0,0,0);        
+    }
+
+    public int dfs(int arr[], int n, int ind, int s1, int n1, int s2, int n2){
+
+        if(n1==n && n2==n){
+            return Math.abs(s1 - s2);            
+        }
+
+        int diff=Integer.MAX_VALUE;
+        if(n1<n)
+            diff = dfs(arr,n,ind+1,s1+arr[ind],n1+1,s2,n2);
+
+        if(n2<n)
+            diff = Math.min(diff, dfs(arr,n,ind+1,s1,n1,s2+arr[ind],n2+1));
+
+        return diff;
+    }
+}
+
+
+
+-------------------------------------------------------------------------------------------------
+
+

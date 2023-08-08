@@ -8,6 +8,12 @@ an array can be iterated using recursion, instead of using a for loop. But that 
 
 Function calling itself.
 
+* There can be two scenarios in recursion tree - 
+    1. We get our result at the leaf node of the tree. After travesring the entire branch.
+    2. We get the result from any node of the tree. Any node in between can potentially have our final result.
+Its important to identify which of the two scenarios will our algorithm have. and write the code accordingly
+
+
 * NOTE - For efficient recursive solution, its better to share resources(Lists,Maps,etc) between the recursive calls, in contrary to creating them everytime in the recurvice method (in this case, they will be created at each node of recursion).
 
 If this can be avoided by sharing resources via function call (by passing them in method arguments), it will significantly improve the runtime of the method (even though the time omplexity is same)

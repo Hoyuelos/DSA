@@ -1,0 +1,89 @@
+House Robber
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+
+https://leetcode.com/problems/house-robber/description/
+
+__________________________________________________________________________________________
+
+
+Brute force - 
+
+Time complexity - n^n
+
+Check all possibilities of robbing society using backtracking.
+If we rob a house then we can't rob its adjacent one, but can rob any house after that.
+
+At each node(house) we have two possibilities - 
+1. Don't rob it and move to the next one.
+2. Rob it, now we can't rob the next one. But can rob any house after that - so recursively we will check for each house after the neighbour
+
+int backtrack(int houses[], int n, int ind){
+        if(ind >= n)	return 0;
+                    
+        int notRobbed = backtrack(houses, n, ind+1);	   //current house not robbed
+        
+        int robbed = houses[ind];
+        for(int i=ind+2; i<n; i++){
+            robbed = Math.max(robbed, houses[ind] + backtrack(houses, n, i));
+        }
+
+        return Math.max(notRobbed, robbed);
+}
+
+
+------------------------------------------------------------------------------------
+
+
+Dynamic programming solution - 
+
+
+Do you observe any pattern?
+Do you see repetitions in the recursive tree (I.e. solving for the same state again and again)?
+
+Yes, there are repetitions.
+As we will reach the 'ith' house from many paths in the recursive tree. 
+So why not save the result from the 'ith' node and use this on our subsequent arrival at this node?
+(This is the top-down approach)
+
+But if we have identified this pattern of repetitive subproblems, we can also solve it using a bottoms-up approach (solving subproblems prior to solving the bigger problem).
+
+
+
+class Solution {
+    public int rob(int[] arr) {
+        int n = arr.length;
+        if(n==1)    return arr[0];
+        if(n==2)    return Math.max(arr[0],arr[1]);
+
+        int max[] = new int[n];
+        boolean inc[] = new boolean[n];
+
+        max[n-1]=arr[n-1]; inc[n-1]=true;
+        max[n-2]=Math.max(arr[n-1],arr[n-2]); inc[n-2]=(max[n-2]==arr[n-2]?true:false);
+
+        for(int i=n-3;i>=0;i--){
+            if(!inc[i+1]){      // neighbour not included
+                max[i] = arr[i]+max[i+1];
+                inc[i] = true;
+            }else{
+                // neighbour included
+                int temp = arr[i] + max[i+2];
+                if(temp > max[i+1]){
+                    max[i] = temp;
+                    inc[i] = true;
+                }else{
+                    max[i] = max[i+1];
+                    inc[i] = false;
+                }
+            }
+        }
+
+        return max[0];
+    }
+}
+
+

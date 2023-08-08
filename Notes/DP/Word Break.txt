@@ -1,0 +1,119 @@
+Word Break
+
+Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+
+https://leetcode.com/problems/word-break/description/
+
+__________________________________________________________________________________________________
+
+
+
+Brute force - 
+
+Backtracking - 
+
+
+class Solution {
+    Set<String> set = null;
+    public boolean wordBreak(String s, List<String> wordDict) {
+        set = new HashSet(wordDict);
+        return recur(s, s.length(), 0);
+    }
+
+    public boolean recur(String s, int n, int ind){
+        if(ind==n)  return true;
+
+        int i=ind;
+
+        String sub = "";
+        while(i<n){
+            sub += s.charAt(i);
+            if(set.contains(sub)){
+                if(recur(s,n,i+1)) return true;
+            }
+            i++;
+        }
+
+        return false;
+    }
+}
+
+
+-------------------------------------------------------------------------------------------
+
+
+Dynamic Programming - 
+
+Identify repetitive subproblems and save their results to be used in future.
+
+1. Top-down approach - 
+
+
+
+class Solution {
+    Set<String> set = null;
+    HashMap<Integer, Boolean> map = new HashMap<>();
+    public boolean wordBreak(String s, List<String> wordDict) {
+        set = new HashSet(wordDict);
+        return recur(s, s.length(), 0);
+    }
+
+    public boolean recur(String s, int n, int ind){
+        if(ind==n)  return true;
+
+        if(map.get(ind)!=null)  return map.get(ind);
+        int i=ind;
+
+        String sub = "";
+        while(i<n){
+            sub += s.charAt(i);
+            if(set.contains(sub)){
+                if(recur(s,n,i+1)){
+                    map.put(ind,true);
+                    return true;
+                } 
+            }
+            i++;
+        }
+
+        map.put(ind,false);
+        return false;
+    }
+}
+
+
+-------------------------------------------------------------------------------------------
+
+
+2. Bottom-up approach - 
+
+
+
+class Solution {
+    
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+        Set<String> set = new HashSet(wordDict);
+
+        boolean dp[] = new boolean[n+1];
+
+        dp[n]=true;
+        if(set.contains(""+s.charAt(n-1)))    dp[n-1] = true;
+
+        for(int i=n-2;i>=0;i--){            
+            for(int j=i+1;j<=n;j++){
+                if(dp[j]){
+                    if(set.contains(s.substring(i,j))){
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return dp[0];
+    }
+}

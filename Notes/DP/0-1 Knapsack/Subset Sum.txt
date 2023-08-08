@@ -1,0 +1,94 @@
+
+Given an array of non-negative integers, and a value sum, determine if there is a subset of the given set with sum equal to given sum. 
+
+https://practice.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1
+
+
+-----------------------------------------------------------------------------------------
+
+
+Brute force - 
+
+Backtracking- 
+
+
+class Solution{
+
+
+    static Boolean isSubsetSum(int n, int arr[], int sum){
+        
+        if(sum == 0)    return true;
+        if(n==0)        return false;
+        
+        if(arr[n-1]>sum)
+            return isSubsetSum(n-1, arr, sum);
+        else{
+            return isSubsetSum(n-1,arr,sum-arr[n-1]) || isSubsetSum(n-1, arr, sum);
+        }
+    }
+}
+
+
+-----------------------------------------------------------------------------------------
+
+
+Dynamic Programming - 
+
+
+Memoization - 
+
+
+class Solution{
+
+    static Boolean isSubsetSum(int n, int arr[], int sum){
+        int mat[][] = new int[n][sum+1];
+        for(int i=0;i<n;i++)
+            Arrays.fill(mat[i],-1);
+        return dfs(0,arr,sum,mat);
+    }
+    
+    static Boolean dfs(int ind, int arr[], int sum, int mat[][]){
+        
+        if(sum==0)  return true;
+        if(ind==arr.length || sum<0)    return false;
+        
+        if(mat[ind][sum]!=-1)   return mat[ind][sum]==1;
+        
+        boolean res = dfs(ind+1,arr,sum-arr[ind],mat) || dfs(ind+1,arr,sum,mat);
+        
+        mat[ind][sum] = res?1:0;
+        return res;
+    }
+}
+
+
+
+-----------------------------------------------------------------------------------------
+
+
+Bottom-up approach - 
+
+
+
+class Solution{
+
+
+    static Boolean isSubsetSum(int n, int arr[], int sum){
+        // code here
+        boolean mat[][] = new boolean[sum+1][n];
+        
+        for(int i=1;i<=sum;i++)
+            if(i==arr[n-1]) mat[i][n-1]=true;
+            
+        for(int j=n-2;j>=0;j--){
+            for(int i=1;i<=sum;i++){
+                if(mat[i][j+1] || i==arr[j]) mat[i][j] = true;
+                else if(i>arr[j]){
+                    mat[i][j] = mat[i-arr[j]][j+1];
+                }
+            }
+        }
+        
+        return mat[sum][0];
+    }
+}

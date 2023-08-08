@@ -1,0 +1,79 @@
+Longest Increasing Subsequence
+
+
+Given an integer array nums, return the length of the longest strictly increasing subsequence.
+
+https://leetcode.com/problems/longest-increasing-subsequence/description/
+
+__________________________________________________________________________________________
+
+
+Brute force - 
+
+Backtracking - check all the possible increasing subsequences to find the one with the max length.
+
+
+class Solution {
+    int max=0;
+    public int lengthOfLIS(int[] arr) {
+        int n = arr.length;
+        List<Integer> list = new ArrayList<>();
+        return recur(arr,n,0,list);
+    }
+
+    public int recur(int arr[], int n, int ind, List<Integer> list){
+
+        if(ind==n){
+            return list.size();
+        }
+
+        int last = Integer.MIN_VALUE;
+        if(list.size()>0)
+            last = list.get(list.size()-1);        
+
+        int max=list.size();
+        for(int i=ind;i<n;i++){
+            if(arr[i]>last){
+                list.add(arr[i]);
+                max = Math.max(max, recur(arr,n,i+1,list));
+                list.remove(list.size()-1);
+            }
+        }
+
+        return max;
+    }
+}
+
+------------------------------------------------------------------------------------------------
+
+
+Dynamic programming - 
+
+As we see that there are many repetitive subproblems, hence this can be approached using DP as well.
+
+Note - in the above recursive solution, on every state, we have info on the last added element and based on this we proceed. So, In the top-down approach, we will need to account for this info as well. (Think about it)
+
+
+
+Bottom-up approach - 
+
+
+class Solution {
+    public int lengthOfLIS(int[] arr) {
+        int n = arr.length;
+        int dp[] = new int[n];
+        Arrays.fill(dp,1);
+        
+        int max=0;
+        for(int i=n-1;i>=0;i--){
+            for(int j=i+1;j<n;j++){
+                if(arr[j]>arr[i] && dp[j]+1>dp[i]){
+                    dp[i] = dp[j]+1;
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+
+        return max;
+    }
+}

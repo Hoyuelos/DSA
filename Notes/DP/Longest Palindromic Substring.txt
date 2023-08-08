@@ -1,0 +1,56 @@
+Longest Palindromic Substring
+
+Given a string s, return the longest palindromic substring in s.
+
+https://leetcode.com/problems/longest-palindromic-substring/description/
+
+____________________________________________________________________________________
+
+
+Brute force - 
+
+Check for each substring if its a palindrome or not. 
+Time complexity - O(n^3)
+
+--------------------------------------------------------------------------------
+
+
+Dynamic programming - 
+
+To check if a given string is a palindrome or not, we can avoid traversing it -
+If the first and last characters are the same, and if the substring excluding these chars is palindrome then the given string is also palindrome.
+
+So, we will be using this overlapping subproblem property and solve it using dynamic property.
+
+
+
+class Solution {
+    public String longestPalindrome(String st) {
+        int n = st.length();        
+        boolean mat[][] = new boolean[n][n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<=i;j++)
+                mat[i][j]=true;
+        }
+            
+        int max=0;
+        int s=0,e=0;
+        String res=null;
+        for(int j=0;j<n;j++){
+            for(int i=0;i<=j;i++){
+                if(st.charAt(i)==st.charAt(j)){
+                    if(i!=j)    mat[i][j] = mat[i+1][j-1];
+                    if(mat[i][j] && j-i+1>max){
+                        max = j-i+1;
+                        s=i;
+                        e=j;
+                    }
+                }
+            }
+        }
+                
+        return st.substring(s,e+1);
+    }
+    
+    
+}

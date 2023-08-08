@@ -1,0 +1,102 @@
+Interleaving String
+
+Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of s1 and s2.
+
+An interleaving of two strings s and t is a configuration where s and t are divided into n and m 
+substrings
+ respectively, such that:
+
+s = s1 + s2 + ... + sn
+t = t1 + t2 + ... + tm
+|n - m| <= 1
+The interleaving is s1 + t1 + s2 + t2 + s3 + t3 + ... or t1 + s1 + t2 + s2 + t3 + s3 + ...
+Note: a + b is the concatenation of strings a and b.
+
+
+https://leetcode.com/problems/interleaving-string/description/
+
+____________________________________________________________________________________
+
+
+Brute force - 
+
+Backtracking-
+
+
+For every character in s3 we have 2 choices - either to pick it from s1 or from s2. 
+
+Space complexity - O(s1.length()*s2.length())
+
+
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        return dfs(s1,0,s2,0,s3,0);
+    }
+
+    public boolean dfs(String s1, int i1, String s2, int i2, String s3, int i3){
+
+        if(i1==s1.length() && i2==s2.length() && i3==s3.length())   return true;
+        if(i3==s3.length())                                         return false;
+
+        if(i1!=s1.length() && s1.charAt(i1)==s3.charAt(i3) && dfs(s1,i1+1,s2,i2,s3,i3+1))
+            return true;
+
+        if(i2!=s2.length() && s2.charAt(i2)==s3.charAt(i3) && dfs(s1,i1,s2,i2+1,s3,i3+1))
+            return true;                        
+        
+        return false;
+
+    }
+}
+
+
+
+------------------------------------------------------------------------------------------
+
+
+Dynamic Programming - 
+
+Top Down Approach - 
+
+
+From our recursive approach, we can see multiple repetitive subproblems. Thus we can save their results to be used again. 
+Here, to save a state - we just need i1 and i2 (as i3 will be dependent on i1 and i2, i.e. can be calculated from them -> i3 = i1 + i2).
+
+And it is not possible to have multiple states having different i3 but the same i1 and i2. (So no need to have i3 in our cache), hence we are using 2-d array as our cache and not a 3-d array.
+
+
+
+class Solution {	
+    int mat[][];		// cache
+    public boolean isInterleave(String s1, String s2, String s3) {
+        
+        mat = new int[s1.length()+1][s2.length()+1];
+        for(int i=0;i<=s1.length();i++){
+            Arrays.fill(mat[i],-1);
+        }
+
+        return dfs(s1,0,s2,0,s3,0);
+    }
+
+    public boolean dfs(String s1, int i1, String s2, int i2, String s3, int i3){
+
+        if(i1==s1.length() && i2==s2.length() && i3==s3.length())   return true;
+        if(i3==s3.length())                                         return false;
+
+        if(mat[i1][i2]!=-1)   return mat[i1][i2]==1;    
+
+        if(i1!=s1.length() && s1.charAt(i1)==s3.charAt(i3) && dfs(s1,i1+1,s2,i2,s3,i3+1)){
+            mat[i1][i2] = 1;
+            return true;
+        }
+
+        if(i2!=s2.length() && s2.charAt(i2)==s3.charAt(i3) && dfs(s1,i1,s2,i2+1,s3,i3+1)){
+             mat[i1][i2] = 1;
+             return true;
+        }
+
+        mat[i1][i2] = 0;                   
+        return false;
+
+    }
+}
