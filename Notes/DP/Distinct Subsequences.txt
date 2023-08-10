@@ -1,0 +1,162 @@
+Distinct Subsequences
+
+Given two strings s and t, return the number of distinct 
+subsequences
+ of s which equals t.
+
+The test cases are generated so that the answer fits on a 32-bit signed integer.
+
+https://leetcode.com/problems/distinct-subsequences/description/
+
+________________________________________________________________________________________
+
+
+Brute force - 
+
+Using backtracking we can check all the possible cases.
+
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        
+        return dfs(s,t,0,0,"");
+        
+    }
+    
+    int dfs(String s, String t, int inds, int indt, String substr){
+                       
+        if(inds == s.length() || indt == t.length()){
+            if(substr.equals(t))    return 1;
+            else return 0;
+        }
+        
+        int cnt = 0;
+        if(s.charAt(inds)==t.charAt(indt))
+        {
+            substr += s.charAt(inds);
+            cnt += dfs(s,t,inds+1,indt+1,substr);
+            substr = substr.substring(0,substr.length()-1);
+            
+            cnt += dfs(s,t,inds+1,indt,substr);
+        }
+        else
+        {
+            cnt += dfs(s,t,inds+1,indt,substr);
+        }
+        
+        return cnt;
+        
+    }
+}
+
+
+------------------------------------------------------------------------------------------------
+
+Better approach - 
+
+Do you see overlapping subproblems and the optimal substructure property in this?
+Yes, from our recursion tree, we can easily identify that the same nodes will be reached via different paths. So we will be saving our subproblems to be used again in future.
+
+
+Dynamic programming - 
+
+Time complexity - O(n^2)
+
+
+Memoization approach -
+
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        
+        int n = s.length();
+        int m = t.length();
+        
+        int ref[][] = new int[n+1][m+1];
+        
+        for(int row[]:ref)  Arrays.fill(row,-1);
+        
+        dfs(s,t,0,0,"",ref);
+        
+        int max = 0;
+        for(int i=0;i<n+1;i++){
+            for(int j=0;j<m+1;j++)
+                if(ref[i][j]>max)   max = ref[i][j];
+        }
+        
+        return max;
+        
+    }
+    
+    int dfs(String s, String t, int inds, int indt, String substr, int ref[][]){
+                       
+        if(inds == s.length() || indt == t.length()){
+            if(substr.equals(t))    return 1;
+            else return 0;
+        }
+        
+        if(ref[inds][indt]!=-1) return ref[inds][indt];
+        
+        int cnt = 0;
+        if(s.charAt(inds)==t.charAt(indt))
+        {
+            substr += s.charAt(inds);
+            cnt += dfs(s,t,inds+1,indt+1,substr,ref);
+            substr = substr.substring(0,substr.length()-1);
+            
+            cnt += dfs(s,t,inds+1,indt,substr,ref);
+        }
+        else
+        {
+            cnt += dfs(s,t,inds+1,indt,substr,ref);
+        }
+        
+        return ref[inds][indt] = cnt;
+        
+    }
+}
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+Bottom-up approach - 
+
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        int lens = s.length();
+        int lent = t.length();
+        
+        if(lent>lens)   return 0;
+        if(lens==lent){
+            if(s.equals(t)) return 1;
+            return 0;
+        }
+        
+        int dp[][] = new int[lent][lens];
+        
+        if(s.charAt(lens-1)==t.charAt(lent-1))  dp[lent-1][lens-1]=1;  
+        for(int i=0;i<lent-1;i++)   dp[i][lens-1]=0;
+        for(int j=lens-2;j>=0;j--){
+            char ch = t.charAt(lent-1);
+            if(ch==s.charAt(j))    dp[lent-1][j] = 1+dp[lent-1][j+1];
+            else                   dp[lent-1][j] = dp[lent-1][j+1];
+        }
+
+        for(int i=lent-2;i>=0;i--){
+            for(int j=lens-2;j>=0;j--){
+                if(t.charAt(i)==s.charAt(j)){
+                    dp[i][j] = dp[i+1][j+1]+dp[i][j+1];
+                }else{
+                    dp[i][j] = dp[i][j+1];
+                }
+            }
+        }
+
+        return dp[0][0];
+    }
+
+}
