@@ -1,0 +1,107 @@
+Sliding Window Maximum
+ 
+
+You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+
+Return the max sliding window.
+
+
+https://leetcode.com/problems/sliding-window-maximum/description/
+
+
+----------------------------------------------------------------------------------------
+
+
+
+Approach 1 - 
+
+Using a heap (priority queue)
+
+--> TLE
+
+class Solution {
+    public int[] maxSlidingWindow(int[] arr, int k) {
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>(k, Collections.reverseOrder());
+        int n = arr.length;
+        int res[] = new int[n-k+1];
+
+        for(int i=0;i<k;i++){
+            pq.add(arr[i]);
+        }
+
+        int l=0,r=k-1;
+        int i=0;
+        while(r<n){
+            res[i] = pq.peek();
+            pq.remove(arr[l]);            
+            l++;
+            r++;
+            i++;
+            if(r<n) pq.add(arr[r]);
+        }
+
+        return res;
+        
+    }
+}
+
+
+
+
+----------------------------------------------------------------------------------------
+
+
+Approach 2 - 
+
+
+Using a DeQueue - 
+
+So as we traverse, we need to keep track of max element and smaller elements coming after it (the ones came before it doesn't matter as we are interested in the max element only)
+But we will keep smaller elements coming afterwards, as if this max goes out of the window, we will need 2nd max and so on....
+
+So, our Dequeue will be in descending order of size equal to the window size (with max element at first position) and elements coming after this max element will be stored next (you know why we need them...)
+
+As our window moves, we check if element at left pointer is same as first element of the queue - if yes then we remove from queue as well, if not, then we do nothing to the queue (why? As this left element must be smaller then the max of the previous window, and it came before the max element in the array so we haven't stored it in the dequeue :) )
+
+Thus using s dequeue, we can do it in O(n) time.
+
+
+
+
+class Solution {
+    public int[] maxSlidingWindow(int[] arr, int k) {
+            
+        int n = arr.length;
+        int res[] = new int[n-k+1];
+
+        Deque<Integer> dq = new ArrayDeque<>();
+
+        dq.add(arr[0]);
+        for(int i=1;i<k;i++){
+            while(dq.size()>0 && arr[i]>dq.getLast())
+                dq.removeLast();
+            dq.add(arr[i]);
+        }
+
+        int l=0,r=k-1;
+        int i=0;
+        while(r<n){
+            res[i] = dq.getFirst();
+            i++;
+            if(arr[l]==dq.getFirst())   dq.removeFirst();
+            l++;
+            r++;
+            if(r<n){
+                while(dq.size()>0 && arr[r]>dq.getLast())
+                    dq.removeLast();
+                dq.add(arr[r]);
+            }
+        }
+        
+        return res;
+    }
+}
+
+
+

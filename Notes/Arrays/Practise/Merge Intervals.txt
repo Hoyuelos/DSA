@@ -1,0 +1,68 @@
+Merge Intervals
+
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+
+https://leetcode.com/problems/merge-intervals/description/
+
+
+------------------------------------------------------------------------------------------------
+
+Approach 1 - 
+
+Using a min heap.
+
+
+class Solution {
+    public int[][] merge(int[][] arr) {
+        int n = arr.length;
+        
+        PriorityQueue<List<Integer>> pq = new PriorityQueue<>(n, Comparator.comparing(list -> list.get(0)));
+        
+        for(int i=0;i<n;i++){
+            List<Integer> list = new ArrayList<>();
+            list.add(arr[i][0]);
+            list.add(arr[i][1]);
+            pq.add(list);
+        }
+        
+        List<List<Integer>> resList = new ArrayList<>();
+        
+        while(pq.size()>1){
+            List<Integer> first = pq.poll();
+            List<Integer> sec = pq.poll();
+            
+            if(first.get(1)>=sec.get(0)){        //merge them
+                List<Integer> list = new ArrayList<>();
+                list.add(first.get(0));
+                list.add(Math.max(first.get(1),sec.get(1)));
+                pq.add(list);
+            }else{
+                resList.add(first);
+                pq.add(sec);
+            }
+        }
+        
+        while(!pq.isEmpty()){
+            resList.add(pq.poll());
+        }
+        
+        int res[][] = new int[resList.size()][2];
+        
+        for(int i=0;i<resList.size();i++){
+            List<Integer> list = resList.get(i);
+            res[i][0] = list.get(0);
+            res[i][1] = list.get(1);
+        }
+        
+        return res;
+    }
+}
+
+
+
+
+------------------------------------------------------------------------------------------------
+
+2 - using prefix sum
+

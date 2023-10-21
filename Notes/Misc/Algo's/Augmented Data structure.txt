@@ -1,0 +1,56 @@
+
+Tweaking our existing Data structures to solve some cool problems. 
+
+
+1 - 
+
+We learnt about BST (or RB tree, a self balancing BST)
+We will see how it can be modified a little to solve some common problems.
+
+
+
+A) We are given an array of numbers (it is dynamic, I.e. numbers can be deleted/added from the array). We have to find the 'K' largest/smallest element in O(log(n)) time. 
+Or we are given a number from that array and we have to find its rank in log(n) time. 
+
+Brute force - sort them and search - nlog(n) time
+
+Using a RB tree, we can do it in a better way (by slight modification)
+At each node, we will store the size of the tree rooted at that node as well. (Including the root)
+	(Node -> int key,size)
+
+Now, we can say that the rank of the root node is - root.left.size + 1  
+
+	I) if we are given rank (r), we need to find the element (eg - 4th smallest element) - considering smallest element has rank 1 and the largest has rank 'n'.
+	
+	find(root, r) -> 
+	if root.rank == r	=> return root
+	if root.rank > r	(required element is in the left side)
+		find(root.left,r)
+	else			(required element is in the right side)
+		find(root.right, r-root.rank)
+
+
+	Note - notice that while going to right, we are passing r-root.rank and not 'r'.
+
+
+B) Given a node, we need to find its rank 
+
+	!!!ly, we can iteratively find the rank of the given node. Just make sure that the rank is global (i.e. w.r.t entire tree and not just the subtree rooted at that node)
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+2 - 
+
+We are given 'n' intervals, we have to find available time slot.
+
+We can do it using prefix sum as well. -> O(n)
+
+Can be done using RB tree as well - idea is to make a tree with the interval's starting time as key  and storing the max timestamp of the subtree (rooted at this node) in the node as well.
+	-> O(log(n))
+
+
+

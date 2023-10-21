@@ -1,0 +1,100 @@
+Edit Distance
+
+Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+
+You have the following three operations permitted on a word:
+
+Insert a character
+Delete a character
+Replace a character
+
+
+https://leetcode.com/problems/edit-distance/
+
+------------------------------------------------------------------------------------------
+
+
+Brute force - 
+
+Try it all one by one
+Using backtracking we can check all the possible operations at all the indices of word1.
+
+If first char of word1 and word2 are the same we move forward with the second character.
+If not, we try every given operation one by one (delete, replace, insert)
+
+
+class Solution {
+    public int minDistance(String s, String t) {
+        return dfs(s,0,t,0);
+    }
+
+    public int dfs(String w1, int i1, String w2, int i2){
+        
+        if(i1==w1.length() && i2==w2.length())  return 0;
+        if(i1==w1.length())     return w2.length()-i2;
+        if(i2==w2.length())     return w1.length()-i1;
+
+        if(w1.charAt(i1)==w2.charAt(i2))
+            return dfs(w1,i1+1,w2,i2+1);
+        
+        int min = Integer.MAX_VALUE;
+        //delete
+        min = Math.min(min, 1 + dfs(w1,i1+1,w2,i2));
+
+        //replace
+        min = Math.min(min, 1 + dfs(w1,i1+1,w2,i2+1));
+
+        //insert
+        min = Math.min(min, 1 + dfs(w1,i1,w2,i2+1));
+
+        return min;
+    }
+}
+
+
+
+------------------------------------------------------------------------------------------
+
+
+Dynamic programming - 
+
+We can see that it has repetitive subproblems and also the optimal substructure property. So this can be solved using DP.
+Either save the result of every subproblem and use it again if we encounter it again or else start in bottom-up fashion, solving the smallest problem first.
+
+
+
+class Solution {
+    int dp[][];
+    public int minDistance(String s, String t) {
+        int l1 = s.length();
+        int l2 = t.length();
+        dp = new int[l1+1][l2+1];
+        for(int i=0;i<l1+1;i++)
+            Arrays.fill(dp[i],-1);
+        return dfs(s,0,t,0);
+    }
+
+    public int dfs(String w1, int i1, String w2, int i2){
+        
+        if(i1==w1.length() && i2==w2.length())  return 0;
+        if(i1==w1.length())     return w2.length()-i2;
+        if(i2==w2.length())     return w1.length()-i1;
+
+        if(dp[i1][i2]!=-1)  return dp[i1][i2];
+
+        if(w1.charAt(i1)==w2.charAt(i2))
+            return dp[i1][i2] = dfs(w1,i1+1,w2,i2+1);
+        
+        int min = Integer.MAX_VALUE;
+        //delete
+        min = Math.min(min, 1 + dfs(w1,i1+1,w2,i2));
+
+        //replace
+        min = Math.min(min, 1 + dfs(w1,i1+1,w2,i2+1));
+
+        //insert
+        min = Math.min(min, 1 + dfs(w1,i1,w2,i2+1));
+
+        return dp[i1][i2] = min;
+    }
+}

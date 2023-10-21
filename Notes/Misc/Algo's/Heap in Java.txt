@@ -1,0 +1,25 @@
+
+
+Heap can be implemented using priority queue.
+
+Max heap - 
+
+	PriorityQueue<Integer> pq = new PriorityQueue<>(k, Collections.reverseOrder());
+	- heap of size 'k'
+
+By default priority queue implements min heap.
+
+
+
+Min heap - 
+	PriorityQueue<Integer> pq = new PriorityQueue<>(k);
+
+
+
+
+
+pq.add(1);
+
+pq.remove(1);
+
+pq.peek();   ->  returns the root of the heap.

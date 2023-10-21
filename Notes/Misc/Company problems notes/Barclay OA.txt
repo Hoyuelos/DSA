@@ -1,0 +1,18 @@
+
+
+Ques 1 - 
+
+ - need to find LCM of two numbers.
+
+
+
+
+
+
+
+Question 2 - 
+
+	based on lines (line in 2-D space)
+
+	Given a few line segments (start point and end point of the segment is given), we have to find out the intersection points, if any. And count the total number of unique intersection points.
+

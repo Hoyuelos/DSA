@@ -1,0 +1,78 @@
+Count of Interesting Subarrays
+
+You are given a 0-indexed integer array nums, an integer modulo, and an integer k.
+
+Your task is to find the count of subarrays that are interesting.
+
+A subarray nums[l..r] is interesting if the following condition holds:
+
+Let cnt be the number of indices i in the range [l, r] such that nums[i] % modulo == k. Then, cnt % modulo == k.
+Return an integer denoting the count of interesting subarrays.
+
+Note: A subarray is a contiguous non-empty sequence of elements within an array.
+
+
+https://leetcode.com/problems/count-of-interesting-subarrays/
+
+------------------------------------------------------------------------------------
+
+In this we need to find number of subarrays, that are interesting. (Satisfying the given condition)
+
+Interesting number - number%mod=k -> number is interesting
+Interesting array - count (count of interesting numbers in the array), if - count%mod=k, then the arrays is interesting.
+
+
+
+Brute force - 
+
+Check all the subarrays and find the interesting ones. 
+
+Time complexity - O(n^2)
+
+
+class Solution {
+    public long countInterestingSubarrays(List<Integer> list, int mod, int k) {
+        int len = list.size();
+        int ans=0;
+        
+        for(int i=0;i<len;i++){
+            int cnt=0;
+            for(int j=i;j<len;j++){
+                if(list.get(j)%mod==k)  cnt++;
+                if(cnt%mod==k)  ans++;
+            }
+        }
+        
+        return ans;
+    }
+}
+
+
+------------------------------------------------------------------------------------
+
+
+Optimized approach -
+
+
+We are just concerned with the count of interesting numbers. (And not the numbers themselves)
+
+So let's first find out which numbers are interesting. (Using a flag we can mark them as interesting or not interesting)
+
+Now, we are concerned of the count of these interesting numbers (I.e. we need to find out the subarray satisfying the given condition)
+
+Ex  - 
+  arr - [ 3, 1, 9, 6]  mod=3, k=0
+ Flag - [ 1, 0, 1, 1]
+
+Prefix sum -
+      - [ 1, 1, 2, 3]
+   (This will have count of interesting numbers from 0 to ith index)
+
+Since mod=3 and k=0, so we need to have a subarray with count = {0,3,6,9,...} 
+
+
+
+
+
+
+
