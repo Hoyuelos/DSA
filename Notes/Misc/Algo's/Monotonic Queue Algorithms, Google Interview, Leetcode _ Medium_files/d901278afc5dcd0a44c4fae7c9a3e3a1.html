@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://1e9.medium.com/media/d901278afc5dcd0a44c4fae7c9a3e3a1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Medium</title><meta name="twitter:widgets:csp" content="on"><meta name="robots" content="noindex"><!--<base target="_blank">--><base href="." target="_blank"><style>body {text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: "ff-tisa-web-pro", Georgia, Cambria, "Times New Roman", Times, serif; font-weight: 400; color: #333332; font-size: 18px; line-height: 1.4; margin: 0; background-color: white; overflow: hidden;}iframe {max-width: 100%;}</style></head><body data-new-gr-c-s-loaded="14.1136.0"><style>.gist .gist-file { margin-bottom: 0 !important; }.gist { text-rendering: auto; }</style><script src="./260048c4f00dc6b325e3985f55afc1e2.js" charset="utf-8"></script><link rel="stylesheet" href="./gist-embed-232d920b3dfe.css"><div id="gist102283541" class="gist">
+    <div class="gist-file" translate="no">
+      <div class="gist-data">
+        <div class="js-gist-file-update-container js-task-list-container file-box">
+  <div id="file-largestrectangleinhistogramoptimized-java" class="file my-2">
+    
+    <div itemprop="text" class="Box-body p-0 blob-wrapper data type-java  ">
+
+        
+<div class="js-check-bidi js-blob-code-container blob-code-content">
+
+  <template class="js-file-alert-template"></template>
+<template class="js-line-alert-template"></template>
+
+  <table data-hpc="" class="highlight tab-size js-file-line-container js-code-nav-container js-tagsearch-file" data-tab-size="8" data-paste-markdown-skip="" data-tagsearch-lang="Java" data-tagsearch-path="LargestRectangleInHistogramOptimized.java">
+        <tbody><tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L1" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="1"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-smi">Solution</span> {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L2" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="2"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC2" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">public</span> <span class="pl-smi">int</span> <span class="pl-en">largestRectangleArea</span>(<span class="pl-smi">int</span>[] <span class="pl-s1">heights</span>) {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L3" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="3"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC3" class="blob-code blob-code-inner js-file-line">        <span class="pl-smi">MQ</span> <span class="pl-s1">q</span> = <span class="pl-k">new</span> <span class="pl-smi">MQ</span>();</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L4" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="4"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC4" class="blob-code blob-code-inner js-file-line">        </td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L5" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="5"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC5" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">for</span> (<span class="pl-smi">int</span> <span class="pl-s1">i</span> = <span class="pl-c1">0</span>; <span class="pl-s1">i</span> &lt;= <span class="pl-s1">heights</span>.<span class="pl-s1">length</span>; <span class="pl-s1">i</span>++) {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L6" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="6"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC6" class="blob-code blob-code-inner js-file-line">            <span class="pl-smi">int</span> <span class="pl-s1">currentValue</span> = <span class="pl-s1">i</span> != <span class="pl-s1">heights</span>.<span class="pl-s1">length</span> ? <span class="pl-s1">heights</span>[<span class="pl-s1">i</span>] : <span class="pl-c1">0</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L7" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="7"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC7" class="blob-code blob-code-inner js-file-line">            <span class="pl-s1">q</span>.<span class="pl-en">push</span>(<span class="pl-k">new</span> <span class="pl-smi">Item</span>(<span class="pl-s1">currentValue</span>, <span class="pl-s1">i</span>));</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L8" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="8"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC8" class="blob-code blob-code-inner js-file-line">        }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L9" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="9"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC9" class="blob-code blob-code-inner js-file-line">        </td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L10" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="10"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC10" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">return</span> <span class="pl-s1">q</span>.<span class="pl-s1">maxArea</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L11" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="11"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC11" class="blob-code blob-code-inner js-file-line">    }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L12" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="12"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC12" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L13" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="13"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">private</span> <span class="pl-k">class</span> <span class="pl-smi">MQ</span> {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L14" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="14"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC14" class="blob-code blob-code-inner js-file-line">        <span class="pl-smi">Deque</span>&lt;<span class="pl-smi">Item</span>&gt; <span class="pl-s1">queue</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L15" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="15"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC15" class="blob-code blob-code-inner js-file-line">        <span class="pl-smi">int</span> <span class="pl-s1">maxArea</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L16" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="16"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC16" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L17" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="17"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC17" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">private</span> <span class="pl-smi">MQ</span>() {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L18" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="18"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC18" class="blob-code blob-code-inner js-file-line">            <span class="pl-s1">queue</span> = <span class="pl-k">new</span> <span class="pl-smi">ArrayDeque</span>&lt;&gt;();</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L19" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="19"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC19" class="blob-code blob-code-inner js-file-line">        }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L20" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="20"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC20" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L21" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="21"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC21" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">public</span> <span class="pl-smi">void</span> <span class="pl-en">push</span>(<span class="pl-smi">Item</span> <span class="pl-s1">newItem</span>) {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L22" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="22"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC22" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">while</span> (!<span class="pl-s1">queue</span>.<span class="pl-en">isEmpty</span>() &amp;&amp; <span class="pl-s1">newItem</span>.<span class="pl-s1">val</span> &lt; <span class="pl-s1">queue</span>.<span class="pl-en">peekLast</span>().<span class="pl-s1">val</span>) {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L23" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="23"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC23" class="blob-code blob-code-inner js-file-line">                <span class="pl-smi">Item</span> <span class="pl-s1">upperBoundary</span> = <span class="pl-s1">queue</span>.<span class="pl-en">removeLast</span>();</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L24" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="24"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC24" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L25" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="25"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC25" class="blob-code blob-code-inner js-file-line">                <span class="pl-smi">int</span> <span class="pl-s1">leftBoundaryIndex</span> = !<span class="pl-s1">queue</span>.<span class="pl-en">isEmpty</span>() ? <span class="pl-s1">queue</span>.<span class="pl-en">peekLast</span>().<span class="pl-s1">ind</span> : -<span class="pl-c1">1</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L26" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="26"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC26" class="blob-code blob-code-inner js-file-line">                <span class="pl-smi">int</span> <span class="pl-s1">width</span> = <span class="pl-s1">newItem</span>.<span class="pl-s1">ind</span> - <span class="pl-s1">leftBoundaryIndex</span> - <span class="pl-c1">1</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L27" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="27"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC27" class="blob-code blob-code-inner js-file-line">                <span class="pl-smi">int</span> <span class="pl-s1">currentArea</span> = <span class="pl-s1">width</span> * <span class="pl-s1">upperBoundary</span>.<span class="pl-s1">val</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L28" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="28"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC28" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L29" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="29"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC29" class="blob-code blob-code-inner js-file-line">                <span class="pl-s1">maxArea</span> = <span class="pl-smi">Math</span>.<span class="pl-en">max</span>(<span class="pl-s1">maxArea</span>, <span class="pl-s1">currentArea</span>);</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L30" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="30"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC30" class="blob-code blob-code-inner js-file-line">            }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L31" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="31"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC31" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L32" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="32"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC32" class="blob-code blob-code-inner js-file-line">            <span class="pl-s1">queue</span>.<span class="pl-en">addLast</span>(<span class="pl-s1">newItem</span>);</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L33" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="33"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC33" class="blob-code blob-code-inner js-file-line">        }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L34" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="34"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC34" class="blob-code blob-code-inner js-file-line">    }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L35" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="35"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC35" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L36" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="36"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC36" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">private</span> <span class="pl-k">class</span> <span class="pl-smi">Item</span> {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L37" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="37"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC37" class="blob-code blob-code-inner js-file-line">        <span class="pl-smi">int</span> <span class="pl-s1">val</span>, <span class="pl-s1">ind</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L38" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="38"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC38" class="blob-code blob-code-inner js-file-line">
+</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L39" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="39"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC39" class="blob-code blob-code-inner js-file-line">        <span class="pl-smi">Item</span>(<span class="pl-smi">int</span> <span class="pl-s1">val</span>, <span class="pl-smi">int</span> <span class="pl-s1">ind</span>) {</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L40" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="40"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC40" class="blob-code blob-code-inner js-file-line">            <span class="pl-smi">this</span>.<span class="pl-s1">val</span> = <span class="pl-s1">val</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L41" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="41"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC41" class="blob-code blob-code-inner js-file-line">            <span class="pl-smi">this</span>.<span class="pl-s1">ind</span> = <span class="pl-s1">ind</span>;</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L42" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="42"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC42" class="blob-code blob-code-inner js-file-line">        }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L43" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="43"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC43" class="blob-code blob-code-inner js-file-line">    }</td>
+        </tr>
+        <tr>
+          <td id="file-largestrectangleinhistogramoptimized-java-L44" class="blob-num js-line-number js-code-nav-line-number js-blob-rnum" data-line-number="44"></td>
+          <td id="file-largestrectangleinhistogramoptimized-java-LC44" class="blob-code blob-code-inner js-file-line">}</td>
+        </tr>
+  </tbody></table>
+</div>
+
+
+    </div>
+
+  </div>
+</div>
+
+      </div>
+      <div class="gist-meta">
+        <a href="https://gist.github.com/johnyleebrown/260048c4f00dc6b325e3985f55afc1e2/raw/4134ee82af63bd8453a4722de47a63234aab7e25/LargestRectangleInHistogramOptimized.java" style="float:right" class="Link--inTextBlock">view raw</a>
+        <a href="https://gist.github.com/johnyleebrown/260048c4f00dc6b325e3985f55afc1e2#file-largestrectangleinhistogramoptimized-java" class="Link--inTextBlock">
+          LargestRectangleInHistogramOptimized.java
+        </a>
+        hosted with ❤ by <a class="Link--inTextBlock" href="https://github.com/">GitHub</a>
+      </div>
+    </div>
+</div>
+<script>var height = -1; var delayMs = 200; if (document) {document.domain = document.domain;}function notifyResize(height) {height = height ? height : document.documentElement.offsetHeight; var resized = false; if (window.donkey && donkey.resize) {donkey.resize(height);var elements = document.getElementsByClassName("gist-data"); for (var i = 0; i < elements.length; i++) {elements[i].style.overflow = "visible"}resized = true;}if (parent && parent._resizeIframe) {var obj = {iframe: window.frameElement, height: height}; parent._resizeIframe(obj); resized = true;}if (window.location && window.location.hash === "#amp=1" && window.parent && window.parent.postMessage) {window.parent.postMessage({sentinel: "amp", type: "embed-size", height: height}, "*");}if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.resize) {window.webkit.messageHandlers.resize.postMessage(height); resized = true;}return resized;}function maybeResize() {try {if (document.documentElement.offsetHeight != height && notifyResize()) {height = document.documentElement.offsetHeight;}delayMs = Math.min(delayMs * 2, 1000000); setTimeout(maybeResize, delayMs);} catch(error) {console.log('maybeResize error: ', error)}}maybeResize();</script><script defer="" src="./v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon="{&quot;rayId&quot;:&quot;820788301e7043cf&quot;,&quot;version&quot;:&quot;2023.10.0&quot;,&quot;token&quot;:&quot;0b5f665943484354a59c39c6833f7078&quot;}" crossorigin="anonymous"></script>
+</body><style>
+@media print {
+  #simplifyJobsContainer {
+    display: none;
+  }
+}
+</style><div id="simplifyJobsContainer" style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: visible; z-index: 2147483647;"><span><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://pbanhockgagggenencehbnadejlgchfc/css/styles.css"><style>
+  :host {
+    all: initial;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    font-family: Palanquin, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(203, 213, 225, 1) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(203, 213, 225, 1);
+    border-radius: 3px;
+    border: 0;
+  }
+</style></template></span></div><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>

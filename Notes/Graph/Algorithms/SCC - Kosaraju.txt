@@ -1,0 +1,46 @@
+
+SCC in a directed graph - 
+
+Kosaraju's Algorithm
+
+
+Definition - A group of vertices, such that each vertex is accessible from every other vertex in that component. Then that component is a SCC. 
+
+
+A graph can have many SCCs.
+
+Meta Graph - considering a SCC of a graph as a single vertex, and removing duplicate edges if any. We will get a meta graph of our original graph. Meta graph will always be a DAG. 
+(If there were a cycle in the meta graph, then the nodes lying in that cycle will also form a SCC and can be clubbed toegather).
+
+Meta graph will have a source component, a sink component and other components which lie in between source and sink.
+(As its a DAG, this will always hold true)
+
+(By component we mean, group of vertices comprising a SCC)
+
+Source component - a component with no incoming edge
+Sink component - a component with no outgoing edge
+
+
+
+Calculate the detection and finish time for each vertex using DFS 
+(this will be helpful to find vertex in source component - as vertices in the source component will have highest finish time as compared to other component's vertices.)
+
+
+
+Create Meta graph for the given input graph.
+
+
+Find transpose of the Graph (I.e. reverse all the edges).
+So, that now our original source component has become a sink component.
+
+
+The vertex with highest finish time (which now lies in the sink component) can be used to traverse all the vertex of the sink component. (As they all are strongly connected).
+So, we have identified one SCC in our graph. (All the vertices in it are black now)
+
+
+Now, from the list of unvisited vertices, we can pick one with the highest finishing time (we can say that it is the part of sink of our remaining unvisited graph).
+And we will continue the process (I.e. start dis traversal from this vertex until we have traversed its SCC)
+
+We will continue the process until all the vertices are visited.
+
+

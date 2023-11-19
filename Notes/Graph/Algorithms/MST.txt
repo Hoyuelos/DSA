@@ -1,0 +1,11 @@
+Spanning tree - 
+
+(We will be talking about undirected graphs)
+A dfs on a graph produces a tree. (No cycle)
+
+A spanning tree is a tree spanning across all the vertices of the graph. (Each vertex is connected)
+
+There can be multiple spanning trees possible in a graph (As from a node, we start off with any of its child)
+
+If edges of the graph has weights, then spanning tree with min weights is called a MST.
+

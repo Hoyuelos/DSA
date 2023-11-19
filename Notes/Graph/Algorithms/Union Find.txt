@@ -1,0 +1,156 @@
+
+A data structure that stores non overlapping or disjoint subset of elements is called disjoint set data structure. The disjoint set data structure supports following operations:
+
+-Adding new sets to the disjoint set.
+-Merging disjoint sets to a single disjoint set using Union operation.
+-Finding representative of a disjoint set using Find operation.
+-Check if two sets are disjoint or not. 
+
+
+-> This is used to find if a relation exist between the two given vertices (direct or indirect).
+
+If vertices lie in disjoint sets then it means there is no relation between them.
+(All the vertices of a set are related to each other)
+
+
+Main Idea - 
+Each set has a representative (parent). All the vertices in that set are child (direct/indirect) of that parent node. 
+
+Given two vertices, if the representative of the sets they belong to is same, then we can say that they are in same Set (and are related). Otherwise, they belong to disjoint set. 
+
+This is Find operation.
+ 
+
+
+
+
+Union - 
+
+If a new edge has to be added between 'u' and 'v'. 
+ - If they are in same set (having same parent), then do nothing.
+ - else, make the parent of 'v' a child of u's parent. -> I.e. v.parent.parent = u.parent. (thereby clubbing these two disjoint sets into one)
+
+
+Note - here by parent we mean the representative of the Set (it can be a direct parent or indirect)
+
+
+
+
+
+Data structure used - 
+
+1. Array (for storing parent) -> int parent[] = new int[n].  // n nodes.
+ 	if 'a' is the parent(representative) of a set then, 
+	parent[a] = a		(key condition of identify the parent of a set)
+
+
+
+
+
+
+Code - 
+
+
+int find(int i)
+ 
+    {
+ 
+        // If i is the parent of itself
+        if (parent[i] == i) {
+ 
+            // Then i is the representative of
+            // this set
+            return i;
+        }
+        else {
+ 
+            // Else if i is not the parent of
+            // itself, then i is not the
+            // representative of his set. So we
+            // recursively call Find on its parent
+            return find(parent[i]);
+        }
+    }
+
+
+
+
+
+void union(int i, int j){
+	int parent_i = find(i);
+	int parent_j = find(j);
+	parent[parent_j] = parent_i
+}
+
+
+
+
+
+Efficiency of the code heavily depends on how we make union (which tree to choose as a parent tree)
+
+- As, in 'Find', we recursively go from the given node upto its root. 
+If a bigger tree made child of the smaller tree (all the nodes in the bigger tree will have slightly inefficient 'find' operation).
+
+
+So, we would like to keep the height of the tree small. (Best case is that all the nodes are directly connected with the parent)
+
+
+
+Following modifications can be made - 
+
+
+Path Compression (Modifications to Find()):
+
+static int find(int i) 
+{
+    if (Parent[i] == i) {
+        return i;
+    }
+    else { 
+        int result = find(Parent[i]);
+        Parent[i] = result;			// path compression step
+        return result;
+     }
+}
+
+Time Complexity: O(log n) on average per call.
+
+
+
+
+Union by Size :
+
+void unionbysize(int i, int j) {
+    int irep = find(i);
+    int jrep = Find(j);
+    if (irep == jrep)
+        return;
+     
+    // Get the size of i’s tree
+    isize = Size[irep],
+ 
+    // Get the size of j’s tree
+    jsize = Size[jrep];
+ 
+    if (isize < jsize) {
+ 
+        this.parent[irep] = jrep;
+       
+        Size[jrep] += Size[irep];
+    }
+ 
+    else if (jsize < isize) {
+ 
+        this.Parent[jrep] = irep;
+       
+        Size[irep]+=Size[jrep];
+    }
+ 
+    // Else if their ranks are the same
+    else {
+        this.Parent[irep] = jrep;
+        Size[jrep]+=Size[irep];
+    }
+}
+
+Time complexity: O(log n) without Path Compression.

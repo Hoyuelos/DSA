@@ -1,0 +1,87 @@
+Replace Words
+
+
+In English, we have a concept called root, which can be followed by some other word to form another longer word - let's call this word successor. For example, when the root "an" is followed by the successor word "other", we can form a new word "another".
+
+Given a dictionary consisting of many roots and a sentence consisting of words separated by spaces, replace all the successors in the sentence with the root forming it. If a successor can be replaced by more than one root, replace it with the root that has the shortest length.
+
+Return the sentence after the replacement.
+
+
+https://leetcode.com/problems/replace-words/description/
+
+
+---------------------------------------------------------------------------------------------------
+
+
+
+
+For every word in the sentence, we have to check if there exists a prefix (to that word) that is present in the dictionary.
+
+So it's a prefix search problem (We have to lookout for the prefix of every word).
+
+Thus, we will be maintaining a trie structure with out dictionary words and for every word in our sentence, we will search if its prefix exists in our trie.
+
+
+Time complexity analysis - 
+To create trie - we will be traversing each word in the dictionary. O(dictionary.length*max_root_length)
+
+Searching prefix - O(sentence.length)
+
+	O(dictionary.length*max_root_length + sentence.length)	
+
+
+
+
+class Solution {
+    public String replaceWords(List<String> dict, String sentence) {
+        TrieNode root = new TrieNode();
+        TrieNode cur = root;
+
+        for(String d: dict){
+            cur=root;
+            for(int i=0;i<d.length();i++){
+                char ch = d.charAt(i);
+                if(cur.arr[ch-'a']==null)       cur.arr[ch-'a'] = new TrieNode();                
+                cur = cur.arr[ch-'a'];
+            }
+            cur.end = true;
+        }
+
+        String res = "";
+        String arr[] = sentence.split(" ");
+        
+        outer:
+        for(String st: arr){            
+            cur = root;
+            String pre = "";
+
+            for(int i=0;i<st.length();i++){
+                char ch = st.charAt(i);
+                if(cur.end){
+                    res+= pre + " ";
+                    continue outer;
+                } 
+
+                if(cur.arr[ch-'a']==null){
+                    // not found in our trie
+                    res+= st + " ";
+                    continue outer;
+                }
+                pre += ch;
+                cur = cur.arr[ch-'a'];
+            }
+
+            res+= st + " ";
+        }
+
+        return res.substring(0, res.length()-1);
+
+    }
+}
+
+
+class TrieNode{
+    boolean end=false;
+    TrieNode arr[] = new TrieNode[26];    
+}
