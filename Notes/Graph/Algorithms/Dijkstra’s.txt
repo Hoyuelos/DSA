@@ -1,0 +1,41 @@
+Dijkstra’s Algorithm - 
+
+Shortest path from a source vertex to all other vertices.
+No negative edges.
+
+- similar to Prim's
+- It is a greedy approach
+- similar to BFS shortest path in undirected graph
+
+The idea is to generate a SPT (shortest path tree) with a given source as a root.
+
+It is similar to the BFS approach in undirected and unweighted graphs, with a difference that it greedily selects a child vertex (from the BFS queue) having shortest distance from the source.
+
+
+Initialize all the vertices as infinite, and source vertex as zero.
+
+Loop:
+  From the pool of unvisited vertices, select one with shortest distance (u; from source vertex). Check its children     vertices (v). Update their distance if needed (i.e. if d[v]>d[u]+e(u,v) then, d[v]=d[u]+e(u,v) ). 
+This updation of vertices is called relaxation. If a visited vertex is relaxed, put it back the pool.
+-loop end
+
+
+
+Dijkstra's algorithm operates under the assumption that once a vertex is marked as visited, the shortest path to that vertex has been found, and further exploration does not change that fact. If you were to relax an already visited vertex, it would mean that the path to that vertex was not the shortest, which contradicts the earlier conclusion.
+- So we do not relax vertices that are already marked visited.
+(This can be proved using Mathematical induction)
+
+
+
+Algorithm:
+
+1. Create a set sptSet (shortest path tree set) that keeps track of vertices included in the shortest path tree, i.e., whose minimum distance from the source is calculated and finalized. Initially, this set is empty. 
+
+2. Assign a distance value to all vertices in the input graph. Initialize all distance values as INFINITE. Assign the distance value as 0 for the source vertex so that it is picked first. 
+
+3. While sptSet doesn’t include all vertices 
+ i. Pick a vertex u that is not there in sptSet and has a minimum distance value. 
+ ii. Include u to sptSet. 
+ iii. Then update the distance value of all adjacent vertices of u. 
+      a. To update the distance values, iterate through all adjacent vertices. 
+      b. For every adjacent vertex v, if the sum of the distance value of u (from source) and weight  of edge u-v, is less than the distance value of v, then update the distance value of v. 

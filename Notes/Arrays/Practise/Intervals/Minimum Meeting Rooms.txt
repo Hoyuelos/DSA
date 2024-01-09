@@ -1,0 +1,80 @@
+
+Given a list of intervals representing the start and end time of ‘N’ meetings, find the minimum number of rooms required to hold all the meetings.
+
+
+----------------------------------------------------------------------------------------
+
+
+Wrong approach - to merge the overlapping intervals and form an array of disjoint intervals (of size m<=n). Then return n-m+1.
+(n - size of original interval array)
+
+
+----------------------------------------------------------------------------------------------
+
+
+Approach 1 - 
+Greedy approach
+
+Sort the interval array based on the start time (in ascending order). Now iterate the intervals, for every interval check if its start is greater than the earliest_end_time (this will store the end_time associated with each room at the moment) till now. If yes, then new room is not required (just add current interval for tracking). If no, new room is required.
+
+
+public int minMeetingRooms(Interval[] intervals) {
+    if(intervals==null||intervals.length==0)
+        return 0;
+ 
+    Arrays.sort(intervals, new Comparator<Interval>(){
+        public int compare(Interval i1, Interval i2){
+            return i1.start-i2.start;
+        }
+    });
+ 
+    PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+    int numberOfMeetingRoomsUsed = 1;
+    queue.offer(intervals[0].end);
+ 
+    for(int i = 1; i < intervals.length; i++) {
+        if (intervals[i].start < queue.peek()) {
+            numberOfMeetingRoomsUsed++;
+        } else {
+            queue.poll();
+        }
+ 
+        queue.offer(intervals[i].end);
+    }
+ 
+    return numberOfMeetingRoomsUsed;
+}
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+Approach 2 - 		(very good approach)
+
+Using prefix sum.
+
+mantain a prefix sum array and check of the maximum entry in the array (this will be the number of rooms required, as it will tell us the max number of parallel meetings at any time).
+
+
+int minHalls(int lectures[][], int n)
+{
+     
+    int []prefix_sum = new int[MAX];
+     
+    for (int i = 0; i < n; i++) 
+    {
+        prefix_sum[lectures[i][0]]++;
+        prefix_sum[lectures[i][1] + 1]--;
+    }
+ 
+    int ans = prefix_sum[0];
+     
+    for (int i = 1; i < MAX; i++) 
+    {
+        prefix_sum[i] += prefix_sum[i - 1];
+        ans = Math.max(ans, prefix_sum[i]);
+    }
+
+    return ans;
+}

@@ -1,0 +1,9 @@
+
+This can be used to sort an array (having numbers from range 1 to N) in constant space and in O(n) time.
+
+The idea is - if we have number from 1 to N in an array, in the sorted array each number will be at the index number-1. 
+So, we can iterate over the array and put numbers at their correct place (as we know what's their correct place is).
+
+(The basic idea behind cyclic sort is to iterate through the array and place each element in its intended position until the entire array is sorted.)
+
+It can be modified a little if the range is from 0 to N.

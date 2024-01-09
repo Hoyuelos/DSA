@@ -9,3 +9,6 @@ There can be multiple spanning trees possible in a graph (As from a node, we sta
 
 If edges of the graph has weights, then spanning tree with min weights is called a MST.
 
+
+
+Union find is used here for its implementation.

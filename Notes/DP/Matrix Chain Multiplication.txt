@@ -1,0 +1,109 @@
+MCM - 
+
+https://practice.geeksforgeeks.org/problems/matrix-chain-multiplication0303
+
+
+Matrix A - axb
+Matrix B - bcc
+
+A x B -> time taken = abc
+
+
+
+Three Matrices - A1(axb), A2(bxc), A3(cxd)
+A1 x A2 x A3 = A (axd)
+
+Option 1 - (A1A2)xA3 => abc + acd (number of operations)
+Option 2 - A1x(A2A3) => bcd + abd (number of operations)
+
+We can see that #operations are different. So our time complexity will depend on how we decided to club the matrices for multiplication.
+
+So, there are multiple ways to proceed. This give us a brute force recursive approach to try them all and choose the one with least number of operations. 
+Can we make our recursive tree in a way that it follows repetitive subproblems and optimal substructure paradigm? (If yes, we could use DP to Optimize our recursion).
+
+
+We gotta write our recursion in a way such that the tree has repetitive subproblems, so that they can be cached.
+
+
+
+
+Brute force - 
+
+By recursion we will try all the possible choices. 
+
+Main part is to formulate the recurrence formula.
+
+PTR - there are multiple ways to write recursion, we have to write it in a way such that we can have overlapping substructure pattern. (Subproblems in the recursion tree must repeat).
+
+
+Try to think of the given problem as a subproblem of an hypothetical bigger problem. So we can see that at every state (in recursion) we will have an array of matrices (and we need to optimally multiple them). 
+
+Recursion is a try all choices approach.
+
+Now we would like to break this subproblem even further, I.e break this array into smaller ones (and try them all). Optimally solve them and then combine the results. (And see which choice gave us the best result)
+
+
+
+
+
+class Solution{
+    
+    static int matrixMultiplication(int N, int arr[])
+    {
+        return recur(N,arr,0,N-1);
+    }
+    
+    static int recur(int N, int arr[], int i, int j){
+        // k from i+1 to j-1
+        // i and j are inclusive
+        if(j==i+1)    return 0;
+        
+        int res=Integer.MAX_VALUE;
+        for(int k=i+1;k<j;k++){
+            res = Math.min(res, recur(N,arr,i,k) + recur(N,arr,k,j) + arr[i]*arr[k]*arr[j]);
+        }
+        
+        return res;
+                
+    }
+}
+
+
+
+
+
+Memoization - 
+
+So, now we can see that we can have multiple repeating subproblems. (This is why it's important to formulate recursion is a way that there are repetitive subproblems).
+So we will store them and reuse their result.
+
+
+
+class Solution{
+    static int mat[][];
+    static int matrixMultiplication(int N, int arr[])
+    {
+        mat = new int[N][N];
+        for(int i=0;i<N;i++)    Arrays.fill(mat[i],-1);
+        return recur(N,arr,0,N-1);
+    }
+    
+    static int recur(int N, int arr[], int i, int j){
+        // k from i+1 to j-1
+        // i and j are inclusive
+        if(j==i+1)    return 0;
+        
+        if(mat[i][j]!=-1)   return mat[i][j];
+        
+        int res=Integer.MAX_VALUE;
+        for(int k=i+1;k<j;k++){
+            res = Math.min(res, recur(N,arr,i,k) + recur(N,arr,k,j) + arr[i]*arr[k]*arr[j]);
+        }
+        
+        return mat[i][j] = res;
+                
+    }
+}
+
+
+

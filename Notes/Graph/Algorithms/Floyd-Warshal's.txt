@@ -1,0 +1,45 @@
+
+It finds shortest path between all the pair of vertices. 
+We can have negative edges.
+But we should not have negative weight cycle in the graph.
+
+
+This is a Dynamic programing approach (Djikstra's was a greedy approach)
+-here we try all the paths and choose the one which is smallest.
+
+
+Idea - 
+
+Suppose we have a graph G[][] with V vertices from 1 to N. Now we have to evaluate a shortestPathMatrix[][] where shortestPathMatrix[i][j] represents the shortest path between vertices i and j.
+
+Obviously the shortest path between i to j will have some k number of intermediate nodes. The idea behind floyd warshall algorithm is to treat each and every vertex from 1 to N as an intermediate node one by one.
+
+
+Pseudo code - 
+
+For k = 0 to n – 1
+For i = 0 to n – 1
+For j = 0 to n – 1
+Distance[i, j] = min(Distance[i, j], Distance[i, k] + Distance[k, j])
+
+where i = source Node, j = Destination Node, k = Intermediate Node
+
+
+
+
+
+
+
+
+
+let dist be a |V| × |V| array of minimum distances initialized to ∞ (infinity)
+for each edge (u, v) do
+    dist[u][v] ← w(u, v)  // The weight of the edge (u, v)
+for each vertex v do
+    dist[v][v] ← 0
+for k from 1 to |V|
+    for i from 1 to |V|
+        for j from 1 to |V|
+            if dist[i][j] > dist[i][k] + dist[k][j] 
+                dist[i][j] ← dist[i][k] + dist[k][j]
+            end if

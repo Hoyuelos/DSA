@@ -51,4 +51,6 @@ Spanning Tree -
 
 
 MST -
+Kruskal's Algo
+Prim Algo
 

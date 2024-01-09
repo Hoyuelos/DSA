@@ -1,0 +1,59 @@
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+
+https://leetcode.com/problems/longest-repeating-character-replacement/description/
+
+-------------------------------------------------------------------------------------------
+
+
+
+class Solution {
+    public int characterReplacement(String st, int k) {
+        
+        int n = st.length();
+        if(n==1)    return 1;
+
+        int vis[] = new int[26];
+        Arrays.fill(vis,0);
+        int l=0,r=0;            // we are keeping 'r' as inclusive of the window
+        int maxLen = 0;
+        char maxFreqChar;        
+        vis[st.charAt(r)-65] += 1;
+
+        while(l<=r && r<n){     
+                   
+            maxFreqChar = findMax(vis);
+            int len = r-l+1;
+            if(len-vis[maxFreqChar-65] <= k){
+                // valid window
+                maxLen = Math.max(maxLen, len);
+                r++;
+                if(r<n) vis[st.charAt(r)-65] += 1;
+            }
+            else{
+               vis[st.charAt(l)-65] -= 1;
+               l++;
+            }
+        
+        }
+
+        return maxLen;
+
+    }
+
+    public char findMax(int arr[]){
+        int max=0;
+        int ind=-1;
+        for(int i=0;i<26;i++){
+            if(arr[i]>max){
+                ind=i;
+                max = arr[i];
+            }
+        }
+        
+        return (char)(ind+65);
+    }
+}
+

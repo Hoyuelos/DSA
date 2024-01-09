@@ -9,6 +9,8 @@ Characterstics of DP -
 2. Overlapping subproblems - subproblems repeat, thus we save their results and reuse it.
 
 
+We try all the choices, and see which ice is the best.
+
 
 Common problem types - 
 

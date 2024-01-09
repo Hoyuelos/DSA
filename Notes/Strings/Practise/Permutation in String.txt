@@ -20,6 +20,7 @@ Time complexity - O(26*n)
 As time complexity to compare maps will be O(26) as it is mentioned that strings can only contain lowercase English alphabets.
 And O(n) is for iterating through the s2 string.
 
+Thus its better to use array of length 26 for tracking characters in window than using a hash map.
 
 --------------------------------------------------------------------------------------------
 
