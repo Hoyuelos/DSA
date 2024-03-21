@@ -1,0 +1,44 @@
+53. Maximum sum Subarray 
+
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+https://leetcode.com/problems/maximum-subarray/description/?envType=list&envId=puuzzmhm
+
+------------------------------------------------------------------------------------------
+
+Kaedan's Algorithm.
+
+
+Array can also have all negative numbers. 
+
+
+Consider a window. If the sum > 0, then we can increase towards right. But if sum < 0, then we will shrink the window from left.
+
+
+
+class Solution {
+    public int maxSubArray(int[] arr) {
+        int n = arr.length;  
+        if(n==1)    return arr[0];
+
+        int l=0,r=0;
+        int sum = arr[l];
+        int res = sum;
+
+        while(l<=r && r<n){
+            res = Math.max(res,sum);
+            if(sum>0){
+                r++;
+                if(r<n) sum+=arr[r];
+            }else{
+                sum = sum - arr[l];
+                l++;
+                if(l>r && l<n){
+                    sum = arr[l]; r=l;
+                }
+            }
+        }
+
+        return res;
+    }
+}

@@ -1,0 +1,52 @@
+48. Rotate Image
+
+You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
+
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+
+https://leetcode.com/problems/rotate-image/description/?envType=list&envId=puuzzmhm
+
+------------------------------------------------------------------------------------
+
+
+Observe the pattern here,
+
+First take a transpose of the matrix, then fill it along horizontal axis.
+
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        if(n==1)    return;
+        
+        transpose(matrix);
+        flipHorizontal(matrix);
+        return;
+    }
+
+    public void transpose(int mat[][]){
+        int n = mat.length;
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<i;j++)
+                swap(mat,i,j,j,i);
+        }
+
+    }
+
+    public void flipHorizontal(int mat[][]){
+        int n = mat.length;
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n/2;j++){
+                swap(mat,i,j,i,n-j-1);
+            }
+        }
+    }
+
+    public void swap(int mat[][], int i, int j, int x, int y){
+        int t = mat[i][j];
+        mat[i][j] = mat[x][y];
+        mat[x][y] = t;
+    }
+}

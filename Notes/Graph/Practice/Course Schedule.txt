@@ -1,0 +1,56 @@
+207. Course Schedule
+
+
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return true if you can finish all courses. Otherwise, return false.
+
+
+https://leetcode.com/problems/course-schedule/description/?envType=list&envId=puuzzmhm
+
+
+------------------------------------------------------------------------------------------
+
+
+
+
+class Solution {
+    int vis[];
+	// vis = 0 - unvisited
+	// vis = 1 - currently in the dis tree
+	// vis = 2 - finished execution
+    public boolean canFinish(int numCourses, int[][] pre) {
+        // cycle detetion in directed graph
+        List<List<Integer>> adj = new ArrayList<>(numCourses);
+        for(int i=0;i<numCourses;i++)   adj.add(new ArrayList<>());
+
+        for(int i=0;i<pre.length;i++){
+            int parent = pre[i][1];
+            //if(adj.get(parent) == null)     adj.add(parent, new ArrayList<>());
+            adj.get(parent).add(pre[i][0]);
+        }
+
+        vis = new int[numCourses];
+
+        for(int i=0;i<numCourses;i++){
+            if(vis[i]==0 && cyclic(i,adj)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean cyclic(int ind, List<List<Integer>> adj){
+
+        vis[ind] = 1;
+        List<Integer> children = adj.get(ind);
+        for(int c:children){
+            if(vis[c]==1)   return true;
+            if(vis[c]==0 && cyclic(c,adj)) return true;
+        }
+        vis[ind] = 2;
+        return false;
+    }
+}

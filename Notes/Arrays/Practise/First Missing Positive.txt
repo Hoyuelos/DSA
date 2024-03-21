@@ -1,0 +1,57 @@
+
+41. First Missing Positive
+
+
+Given an unsorted integer array nums, return the smallest missing positive integer.
+
+You must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.
+
+
+https://leetcode.com/problems/first-missing-positive/description/?envType=list&envId=puuzzmhm
+
+----------------------------------------------------------------------------------------
+
+
+
+Interesting question
+
+So our first thought will be to sort the array and find the first missing positive number. But that will in log(n) approach.
+
+This is a nice application of Cyclic sort.
+
+(Cyclic sort can be used if we are dealing with numbers from range 1-N, and want to sort them in O(n) time and constant space)
+	-- this condition is satisfied here, as we only want first missing positive number. So if we sort it using Cyclic sort, we can be sure that at least smaller positive numbers will be at their correct place (if they are present), so likewise we can identify missing number.
+
+As in an array of size 'n' - it should have numbers from 1 to N. (Ideally, after cyclic sort).
+
+(And we just need first missing positive number so we can find it using this approach.)
+
+
+
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        int i=0;
+        while(i<nums.length){
+            int correct = nums[i]-1;
+            if(nums[i]<= nums.length && nums[i] > 0 && nums[i] != nums[correct]){
+                swap(nums, i , correct);
+            } else { 
+                i++;
+            }
+        }
+        
+        for( int index = 0; index<nums.length; index++){
+            if(nums[index] != index+1){
+                return index+1;
+            }
+        }
+
+        return nums.length + 1;
+    }
+
+    void swap(int[] nums, int first, int second){
+        int temp = nums[first];
+        nums[first] = nums[second];
+        nums[second] = temp;
+    }
+}

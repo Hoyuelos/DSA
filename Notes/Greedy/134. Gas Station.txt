@@ -1,0 +1,83 @@
+134. Gas Station
+
+
+There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i].
+
+You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations.
+
+Given two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is guaranteed to be unique
+
+
+https://leetcode.com/problems/gas-station/description/
+
+_---------_---------_---------_---------_---------_---------_---------_---------_---------_---------
+
+
+
+
+Approach
+
+This is a tricky greedy problem.
+First, we can say that if sum(gas)<sum(cost) then we can never find a solution. So will check this condition and return -1 if it is true.
+
+Otherwise, as stated, there always exist a unique solution.
+
+Our hypothesis -
+make an array of differences (gas[i] - cost[i] for all 'i' in the array).
+
+Let's say that our final solution is some index 'i'.
+(So starting from 'i', sum of differences array will be greater than 0 for a round trip back to 'i').
+
+let's break this differences array in two parts.
+First part - from index 0 until 'i-1'. (total sum = b)
+Second - from 'i' onwards until last index (sum = a)
+
+we know that, a+b >=0 (sum of differences starting from i)
+also, a>=0. (otherwise we can't reach till the end starting from 'i')
+
+Now, can we say that the first element for which a>=0 will be our answer (as we are gauranteed to have a unique solution).
+
+Yes. (This is intuitive)
+
+(proof by contradiciton - if lets index 'j' (j>i) with a>=0 is the answer, then 'i' also needs to be the answer, but it contradicts the fact that only one solution exist)
+
+so we just need to find the first element in the array, such that starting from that element, sum till the end is positive.
+
+Complexity
+Time complexity:
+O(n)
+
+Space complexity:
+O(1)
+
+
+
+Code
+
+
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        if(sum(gas)<sum(cost))  return -1;
+
+        int start=0;
+        int totalGas = 0;
+
+        for(int i=0;i<n;i++){
+            totalGas += gas[i]-cost[i];
+            if(totalGas<0){
+                start = i+1;
+                totalGas = 0;
+            }
+        }
+
+        return start;
+
+    }
+
+    public int sum(int arr[]){
+        int sum=0;
+        for(int n:arr)  sum += n;
+        return sum;
+    }
+}

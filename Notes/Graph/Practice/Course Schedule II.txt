@@ -1,0 +1,51 @@
+210. Course Schedule II
+
+
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
+
+https://leetcode.com/problems/course-schedule-ii/description/?envType=list&envId=puuzzmhm
+
+------------------------------------------------------------------------------------------
+
+
+
+
+class Solution {
+    int vis[];
+    public int[] findOrder(int numCourses, int[][] pre) {
+        List<List<Integer>> adj = new ArrayList<>(numCourses);
+        for(int i=0;i<numCourses;i++)   adj.add(new ArrayList<>());
+
+        for(int i=0;i<pre.length;i++)   adj.get(pre[i][1]).add(pre[i][0]);        
+
+        vis = new int[numCourses];
+        Stack<Integer> st = new Stack<>();
+
+        for(int i=0;i<numCourses;i++){
+            if(vis[i]==0 && cyclic(i,adj,st))   return new int[0];
+        }
+
+        int res[] = new int[numCourses];
+        for(int i=0;i<numCourses;i++)   res[i] = st.pop();
+
+        return res;
+    }
+
+    public boolean cyclic(int ind, List<List<Integer>> adj, Stack<Integer> st){
+
+        vis[ind] = 1;
+
+        List<Integer> children = adj.get(ind);
+        for(int c:children){
+            if(vis[c]==1)   return true;
+            if(vis[c]==0 && cyclic(c,adj,st))   return true;
+        }
+
+        vis[ind] = 2;
+        st.add(ind);
+        return false;
+    }
+}

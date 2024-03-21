@@ -1,0 +1,97 @@
+Word Ladder
+
+A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
+
+Every adjacent pair of words differs by a single letter.
+Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
+sk == endWord
+Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.
+
+https://leetcode.com/problems/word-ladder/description/
+
+------------------------------------------------------------------------------------
+
+
+
+
+We are aksed to find the shortest path from beginWord to the endWord. So, we can think of this problem as a graph. And then find the shortest path from source to destination.
+
+This is a better approach than brute force, as it check all the possible paths form source to destination and find the best in n^2 time.
+
+
+
+We will create a undirected graph, where vertices represent words in the wordList and our beginWord.
+In our graph, there will be an edge between two vertices(words). If the two words have only one character different in them.
+Since it is an undirected and unweighted graph, we can use plain BFS to find the shortest path.
+
+
+
+
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {        
+        wordList.add(0, beginWord);
+        int len = wordList.size();
+        int endIdx = wordList.indexOf(endWord);
+        if(endIdx==-1)  return 0;
+        
+        // create graph
+        int mat[][] = new int[len][len];
+        for(int i=0;i<len;i++){
+            for(int j=i+1;j<len;j++){
+                String start = wordList.get(i);
+                String end = wordList.get(j);
+                if(check(start,end))    mat[i][j] = mat[j][i] = 1;
+            }
+        }
+
+        /*for(int i=0;i<len;i++){
+            for(int j=0;j<len;j++) System.out.print(mat[i][j]+" ");
+            System.out.println();
+        }*/
+        
+        //BFS for shortest path
+        int cnt = bfs(mat,len,endIdx);
+        return cnt+1;
+    }
+
+    public boolean check(String cur, String next){
+        boolean flag = true;
+        for(int i=0;i<cur.length();i++){
+            if(cur.charAt(i)!=next.charAt(i))
+                if(!flag)   return false;
+                else        flag = false;
+        }
+        return true;
+    }
+
+    public int bfs(int mat[][], int len, int endIdx){
+
+        Queue<Integer> q = new LinkedList<>();
+        q.add(0);
+        int cnt=0;
+        boolean stop = false;
+        int vis[] = new int[len];
+        vis[0] = 1;
+        while(q.size()>0 && !stop){
+            int n = q.size();            
+            while(n>0){
+                int cur = q.poll();                
+                if(cur==endIdx){
+                    stop = true;
+                    break;
+                } 
+                
+                for(int i=0;i<len;i++){
+                    if(mat[cur][i]==1 && vis[i]==0){
+                        q.add(i);
+                        vis[i] = 1;
+                    }
+                }
+                n--;
+            }
+            if(!stop)   cnt++;
+        }
+
+        return stop ? cnt : -1;
+    }
+}
